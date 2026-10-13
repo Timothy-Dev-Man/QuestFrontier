@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react"
 import { NativeModules } from "react-native"
-import { fetchLogin, fetchRegister } from "../4_api/auth.api"
+import { fetchLogin, fetchRegister, fetchLogout } from "../4_api/auth.api"
 import {
   removeJWTToken,
   removeUser,
@@ -76,6 +76,7 @@ export function AuthProvider({ children }) {
   // 2c. Function: logout
   const logout = async () => {
     // clear token & user
+    // await fetchLogout(token)
     await removeJWTToken()
     await removeUser()
     DevSettings.reload()
@@ -119,6 +120,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         token,
         isLoading,
         register,
