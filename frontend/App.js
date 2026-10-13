@@ -18,9 +18,11 @@ import Stats from "./src/1_screens/User/Stats"
 import Shop from "./src/1_screens/User/Shop"
 
 import Settings from "./src/1_screens/Utils/Settings"
-import Inventory from "./src/1_screens/Utils/Inventory"
 import BlockedApps from "./src/1_screens/Utils/BlockedApps"
 import Intro from "./src/1_screens/Utils/Intro"
+import ChangeUsername from "./src/1_screens/Utils/ChangeUsername"
+import ChangeEmail from "./src/1_screens/Utils/ChangeEmail"
+import ChangePassword from "./src/1_screens/Utils/ChangePassword"
 
 import ErrorOverlay from "./src/3_components/ErrorOverlay"
 import ViewItem from "./src/3_components/ViewItem"
@@ -46,30 +48,32 @@ function AuthStack() {
 }
 
 
-function SetupStack() {
+function AppStack() {
+  const { setup } = useUser()
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={setup === false ? "Intro" : "Home"}
+    >
       <Stack.Screen name="Intro" component={Intro} />
       <Stack.Screen name="BlockedApps" component={BlockedApps} />
-    </Stack.Navigator>
-  )
-}
 
-
-function AppStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Stats" component={Stats} />
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="BlockedApps" component={BlockedApps} />
-      <Stack.Screen name="Intro" component={Intro} />
-      <Stack.Screen name="ViewItem" component={ViewItem} />
       <Stack.Screen name="Shop" component={Shop} />
+
       <Stack.Screen name="QuestCreate" component={CreateQuest} />
-      <Stack.Screen name="QuestsList" component={QuestsList} />
       <Stack.Screen name="QuestDetails" component={QuestDetailPage} />
+      <Stack.Screen name="QuestsList" component={QuestsList} />
+      <Stack.Screen name="ViewItem" component={ViewItem} />
+
+
+      <Stack.Screen name="Settings" component={Settings} />
+
+      <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
+      <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
     </Stack.Navigator>
   )
 }
@@ -77,7 +81,7 @@ function AppStack() {
 
 function RootNavigator() {
   const { user, isLoading } = useAuth()
-  const { setup, loadingForProfile } = useUser()
+  const { setup, profileLoaded } = useUser()
   const { error } = useError()
 
   const [fontsLoaded] = useFonts({
@@ -93,7 +97,7 @@ function RootNavigator() {
    * - User profile has finished loading
    * - Fonts have loaded
    */
-  if (isLoading || !fontsLoaded) {
+  if (isLoading || (user && !profileLoaded) || !fontsLoaded) {
     return null
   }
 
@@ -110,8 +114,6 @@ function RootNavigator() {
 
       {!user ? (
         <AuthStack key="auth" />
-      ) : setup === false ? (
-        <SetupStack key="setup" />
       ) : (
         <AppStack key="app" />
       )}
