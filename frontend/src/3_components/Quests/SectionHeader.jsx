@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function SectionHeader({ icon, title, number }) {
+function SectionHeader({ icon, title, number, color }) {
     return (
         <View style={styles.container}>
             <View style={styles.leftSide}>
@@ -16,11 +16,11 @@ function SectionHeader({ icon, title, number }) {
                 </Text>
             </View>
 
-            <View style={styles.line} />
+            <View style={[styles.line, color ? { backgroundColor: color } : null]} />
 
-            <Text style={styles.number}>
+            {number ? <Text style={styles.number}>
                 {number} quests
-            </Text>
+            </Text> : null}
         </View>
     );
 }
@@ -36,6 +36,7 @@ const styles = {
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
+        justifyContent: 'center'
     },
 
     title: {
