@@ -15,12 +15,19 @@ export default function Inventory() {
   }, [getUserInventory])
 
   return (
-    <View style={[styles.menuContainer, { flex: 0.8, paddingTop: 10, margin: 'auto', minWidth: '100%', alignItems: 'center', }]}>
+    <View style={[styles.menuContainer, { flex: 0.8, paddingTop: 10, margin: 'auto', minWidth: '100%', alignItems: 'center' }]}>
       <Text style={{ textAlign: 'center', color: "#DDE8FF", fontSize: 20, }}>Inventory</Text>
 
       <FlatList
         style={user.gridList}
-        contentContainerStyle={user.gridContent}
+        contentContainerStyle={[
+          user.gridContent,
+          inventory?.length === 0 && {
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ]}
         data={inventory}
         extraData={inventory}
         numColumns={1}
