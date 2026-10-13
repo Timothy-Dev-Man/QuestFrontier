@@ -36,9 +36,31 @@ export async function fetchRegister(credentials) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          name: credentials.name,
           email: credentials.email,
           password: credentials.password,
         }),
+      },
+    )
+    const data = await response.json()
+    if (!response.ok) {
+      throw new Error("Network response was NOT ok. Status: " + response.status)
+    }
+    return data
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function fetchLogout(token) {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/logout`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
     )
     const data = await response.json()
