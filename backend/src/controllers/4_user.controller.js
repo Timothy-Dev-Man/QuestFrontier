@@ -1,4 +1,17 @@
-import { changeHunterName, changeSetup, getHunterName, getUserInventory, getUserProgress, getUserStats, updateUserStats, useInventoryItem, getActiveEffects } from "../services/4_user.service.js"
+import {
+  changeHunterName,
+  changeSetup,
+  getHunter,
+  getUserInventory,
+  getUserProgress,
+  getUserStats,
+  updateUserStats,
+  useInventoryItem,
+  getActiveEffects,
+  changeEmail,
+  changePassword,
+  checkCurrentPassword
+} from "../services/4_user.service.js"
 import { getUserBadge } from "../services/5_badges.service.js"
 import pool from "../../DB/config/db.js"
 
@@ -11,6 +24,45 @@ export async function updateUsernameController(req, res) {
   } catch (err) {
     console.error("updateUsernameController error:", err)
     res.status(500).json({ error: err.message || "Internal Server Error" })
+  }
+}
+
+export async function updateUserEmailController(req, res, next) {
+  try {
+    const userId = req.user.id
+    const { email } = req.body
+    const result = await changeEmail(email, userId)
+
+    return res.status(200).json(result)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function checkCurrentPasswordController(req, res, next) {
+  try {
+    const userId = req.user.id
+    const { password } = req.body
+    const result = await checkCurrentPassword(password, userId)
+
+    return res.status(200).json(result)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function updateUserPasswordController(req, res, next) {
+  try {
+    const userId = req.user.id
+    const { password } = req.body
+    const result = await changePassword(password, userId)
+
+    return res.status(200).json({
+      message: "Password updated successfully",
+      user: result,
+    })
+  } catch (err) {
+    next(err)
   }
 }
 
@@ -29,15 +81,14 @@ export async function updateSetupController(req, res) {
 export async function getUserProfileController(req, res) {
   try {
     const userId = req.user.id
-    const hunterName = await getHunterName(userId)
+    const hunter = await getHunter(userId)
     const { stats, streak, weekly } = await getUserStats(userId)
     const progress = await getUserProgress(userId)
-    const badge = await getUserBadge(userId)
     const setup = await pool.query("SELECT setup_complete FROM users WHERE id = $1", [userId])
     const data = setup.rows[0]
     console.log("PROFILE SETUP: ", data.setup_complete)
 
-    res.status(200).json({ hunterName, stats, streak, weekly, progress, badge, setup: data.setup_complete })
+    res.status(200).json({ hunter, stats, streak, weekly, progress, setup: data.setup_complete })
   } catch (err) {
     console.error("getUserProfileController error:", err)
     res.status(500).json({ error: err.message || "Internal Server Error" })

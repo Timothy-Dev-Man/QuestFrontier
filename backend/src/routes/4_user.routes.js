@@ -10,16 +10,16 @@ import {
   getUserInventoryController,
   useInventoryItemController,
   updateSetupController,
-  getActiveEffectsController
+  getActiveEffectsController,
+  updateUserEmailController,
+  checkCurrentPasswordController,
+  updateUserPasswordController,
 } from "../controllers/4_user.controller.js"
 
 const router = express.Router()
 
 // GET current user profile
 router.get("/profile", authenticate, getUserProfileController)
-
-// PATCH update username
-router.post("/name", authenticate, ...hunterNameValidation, validate, updateUsernameController)
 
 // PATCH update username
 router.put("/setup", authenticate, updateSetupController)
@@ -36,4 +36,17 @@ router.post("/inventory/use", authenticate, useInventoryItemController)
 // POST use inventory item
 router.get("/inventory/effect", authenticate, getActiveEffectsController)
 
+// PATCH update username
+router.put("/update/name", authenticate, ...hunterNameValidation, validate, updateUsernameController)
+
+// PATCH update password
+router.put("/update/email", authenticate, updateUserEmailController)
+
+// PATCH update password
+router.put("/update/password", authenticate, updateUserPasswordController)
+
+// PATCH update password
+router.post("/check/password", authenticate, checkCurrentPasswordController)
+
 export default router
+//IamTheMan!1
