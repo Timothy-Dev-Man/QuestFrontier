@@ -1,4 +1,6 @@
 import pool from "../../DB/config/db.js"
+import bcrypt from "bcrypt"
+import { hashPassword } from './1_auth.service.js'
 
 export async function changeHunterName(name, userId) {
   try {
@@ -26,11 +28,51 @@ export async function changeSetup(userId) {
   }
 }
 
-export async function getHunterName(userId) {
+export async function changeEmail(email, userId) {
+  const sql = `UPDATE users SET email = $1 WHERE id = $2 RETURNING email;`
+  const result = await pool.query(sql, [email, userId])
+  return result.rows[0]
+}
+
+export async function changePassword(password, userId) {
+  const passwordHash = await hashPassword(password)
+
+  const sql = `
+    UPDATE users
+    SET password_hash = $1
+    WHERE id = $2
+    RETURNING id;
+  `
+
+  const result = await pool.query(sql, [passwordHash, userId])
+  return result.rows[0]
+}
+
+export async function checkCurrentPassword(password, userId) {
+  const sql = `
+    SELECT password_hash
+    FROM users
+    WHERE id = $1;
+  `
+
+  const result = await pool.query(sql, [userId])
+
+  if (result.rows.length === 0) {
+    return false
+  }
+
+  const doesMatch = await bcrypt.compare(password, result.rows[0].password_hash)
+  console.log("pw doesMatch:", doesMatch)
+  return doesMatch
+}
+
+export async function getHunter(userId) {
   try {
-    const sql = `SELECT username FROM users WHERE id = $1;`
+    const sql = `SELECT username, email, setup_complete FROM users WHERE id = $1;`
     const result = await pool.query(sql, [userId])
-    return result.rows[0]
+    const data = result.rows[0]
+    console.log("USER DATA: ", data)
+    return data
   } catch (err) {
     throw err
   }
