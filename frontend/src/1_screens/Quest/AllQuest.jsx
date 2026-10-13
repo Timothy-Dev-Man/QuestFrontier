@@ -24,6 +24,7 @@ const QuestsList = () => {
   const { isLoading, getQuestByFilter } = useQuests();
 
   const [displayQuests, setDisplayQuests] = useState([]);
+  const [upcomingQuests, setUpcomingQuests] = useState([]);
 
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
@@ -37,7 +38,27 @@ const QuestsList = () => {
         sortFilter
       );
 
-      setDisplayQuests(quests || []);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const allQuests = quests || [];
+
+      const filteredQuests = allQuests.filter((quest) => {
+        const startDate = new Date(quest.start);
+        startDate.setHours(0, 0, 0, 0);
+
+        return startDate <= today;
+      });
+
+      const filteredUpcomingQuests = allQuests.filter((quest) => {
+        const startDate = new Date(quest.start);
+        startDate.setHours(0, 0, 0, 0);
+
+        return startDate > today;
+      });
+
+      setDisplayQuests(filteredQuests);
+      setUpcomingQuests(filteredUpcomingQuests);
     }, [getQuestByFilter, statusFilter, typeFilter, sortFilter])
   );
 
@@ -109,20 +130,6 @@ const QuestsList = () => {
             {displayQuests.length === 0 ? (
               <View style={styles.emptyState}>
 
-                {/* EMPTY STATE ICON */}
-                <View style={styles.emptyIconGlow}>
-                  <LinearGradient
-                    colors={["#193d91", "#09245d"]}
-                    style={styles.emptyIconCircle}
-                  >
-                    <MaterialCommunityIcons
-                      name="clipboard-text-outline"
-                      size={26}
-                      color="#29C8FF"
-                    />
-                  </LinearGradient>
-                </View>
-
                 <Text style={styles.emptyTitle}>
                   No active quests.
                 </Text>
@@ -136,35 +143,68 @@ const QuestsList = () => {
             ) : (
               <QuestList quests={displayQuests} />
             )}
-
-            {/* CREATE BUTTON */}
-            <Pressable
-              onPress={() => navigation.navigate("QuestCreate")}
-              style={({ pressed }) => [
-                styles.createButtonWrapper,
-                pressed && styles.createButtonPressed,
-              ]}
-            >
-              <LinearGradient
-                colors={["#218CFF", "#1472F2"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.createButton}
-              >
-                <MaterialCommunityIcons
-                  name="plus"
-                  size={34}
-                  color="#FFFFFF"
-                />
-
-                <Text style={styles.createButtonText}>
-                  Create Quest
-                </Text>
-              </LinearGradient>
-            </Pressable>
-
           </View>
         </View>
+        {upcomingQuests.length > 0 ? (
+          <View style={{ height: '25%' }}>
+            <View style={styles.sectionContainer}>
+              <SectionHeader
+                icon="calendar-outline"
+                title="Upcoming quests"
+                number={upcomingQuests.length}
+              />
+            </View>
+
+            {/* QUEST AREA */}
+            <View style={styles.questPanel}>
+
+              {displayQuests.length === 0 ? (
+                <View style={styles.emptyState}>
+
+                  <Text style={styles.emptyTitle}>
+                    No active quests.
+                  </Text>
+
+                  <Text style={styles.emptyDescription}>
+                    Your quests will show up here{"\n"}
+                    once you have some.
+                  </Text>
+
+                </View>
+              ) : (
+                <QuestList quests={upcomingQuests} />
+              )}
+            </View>
+          </View>) : null}
+
+
+        {/* CREATE BUTTON */}
+        <Pressable
+          onPress={() => navigation.navigate("QuestCreate")}
+          style={({ pressed }) => [
+            styles.createButtonWrapper,
+            pressed && styles.createButtonPressed,
+            { marginTop: 20 }
+          ]}
+        >
+          <LinearGradient
+            colors={["#03152D", "#073363", "#03152D"]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.createButton}
+          >
+            <MaterialCommunityIcons
+              name="plus"
+              size={30}
+              color="#00D9FF"
+            />
+
+            <Text style={styles.createButtonText}>
+              Create Quest
+            </Text>
+
+          </LinearGradient>
+        </Pressable>
 
         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 15 }}>
           <NavBar />
@@ -271,12 +311,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
 
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderRadius: 24,
+    borderWidth: 1,
     borderColor: "#174780",
 
     overflow: "hidden",
@@ -350,49 +386,54 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+
   /* ---------------- CREATE BUTTON ---------------- */
+
   createButtonWrapper: {
+    width: "80%",
+    alignSelf: "center",
     marginHorizontal: 24,
     marginBottom: 20,
-    width: '80%',
-    borderRadius: 20,
 
-    shadowColor: "#198AFF",
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
+    borderRadius: 16,
+
+    shadowColor: "#009DFF",
+    shadowOpacity: 0.28,
+    shadowRadius: 12,
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 4,
     },
 
-    elevation: 8,
-    alignSelf: 'center',
+    elevation: 5,
   },
 
   createButtonPressed: {
-    transform: [{ scale: 0.985 }],
-    opacity: 0.92,
+    transform: [{ scale: 0.97 }],
+    opacity: 0.85,
   },
 
   createButton: {
-    height: 46,
+    height: 56,
     borderRadius: 16,
 
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
 
-    borderWidth: 1,
-    borderColor: "#46A7FF",
+    borderWidth: 1.5,
+    borderColor: "#00C8FF",
 
+    paddingHorizontal: 20,
   },
 
   createButtonText: {
-    color: "#FFFFFF",
-    fontSize: 19,
-    fontWeight: "600",
-    marginLeft: 8,
-    letterSpacing: 0.1,
-    fontFamily: 'Orbitron_400Regular'
+    color: "#D8F4FF",
+    fontSize: 17,
+    fontWeight: "500",
+    marginLeft: 10,
+    letterSpacing: 0.5,
+    fontFamily: "Orbitron_400Regular",
   },
+
 });

@@ -8,8 +8,7 @@ const QuestCard = ({
   id,
   title,
   deadLine,
-  createdAt,
-  reward,
+  start,
   status,
   type,
   difficulty,
@@ -55,13 +54,33 @@ const QuestCard = ({
     statusIconColor = "#fff";
   }
 
+
   const deadlineMs = new Date(deadLine).getTime();
-  const msRemaining = deadlineMs - now;
+  const startMs = start ? new Date(start).getTime() : NaN;
 
-  const totalMinutes = Math.ceil(Math.max(0, msRemaining) / 60000);
+  const isWaitingForStart =
+    status === "pending" &&
+    Number.isFinite(startMs) &&
+    now < startMs;
 
-  const hours = Math.floor(totalMinutes / 60);
+  // Count toward the start time if waiting;
+  // otherwise, count toward the deadline.
+  const targetTime = isWaitingForStart ? startMs : deadlineMs;
+  const msRemaining = Number.isFinite(targetTime)
+    ? Math.max(0, targetTime - now)
+    : 0;
+
+
+  const totalMinutes = Math.ceil(msRemaining / 60000);
+
+  const totalHours = Math.floor(totalMinutes / 60);
+  const days = Math.floor(totalHours / 24);
+  const hours = totalHours % 24;
   const minutes = totalMinutes % 60;
+
+  const formattedTime = totalHours >= 24 ? `${days}d ${hours}h` : `${totalHours}h ${minutes}m`;
+
+
 
   return (
     <View
@@ -219,28 +238,29 @@ const QuestCard = ({
               textTransform: "capitalize",
             }}
           >
-            {status}
+            {isWaitingForStart ? "Starts in" : status}
           </Text>
         </View>
 
-        {status === 'pending' ? <View style={{
-          flexDirection: 'row',
-          alignItems: "center",
-          gap: 6
+        {status === "pending" ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <MaterialCommunityIcons
+              name="clock-outline"
+              size={14}
+              color="#40D8F7"
+            />
 
-        }}>
-          <MaterialCommunityIcons
-            name="clock-outline"
-            size={14}
-            color="#40D8F7"
-          />
-          <Text style={{ color: "#40D8F7", fontSize: 14 }}>
-            {status === "completed" || status === "failed"
-              ? "0h 0m"
-              : `${hours}h ${minutes}m`
-            }
-          </Text>
-        </View> : null}
+            <Text style={{ color: "#40D8F7", fontSize: 14 }}>
+              {formattedTime}
+            </Text>
+          </View>
+        ) : null}
       </View>
     </View>
   );

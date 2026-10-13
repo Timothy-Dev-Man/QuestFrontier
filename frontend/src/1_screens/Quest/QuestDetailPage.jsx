@@ -27,6 +27,16 @@ export default function QuestDetailPage({ route, navigation }) {
   const { reward, getUserQuests, updateQuest, showReward, setShowReward } = useQuests()
   const { setError } = useError()
 
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
 
     async function loadQuest() {
@@ -56,27 +66,30 @@ export default function QuestDetailPage({ route, navigation }) {
 
   }, [])
 
+  async function completeQuest() {
+    await updateQuest(questId)
+
+    const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN)
+
+    const data = await fetchQuestById(token, questId)
+
+    console.log("fetched quest by id: ", data)
+    setQuest(data)
+
+  }
+
   if (loading) {
     return <ActivityIndicator style={styles.progress} size="large" />
   }
 
-  const now = new Date().getTime();
+  const startTime = quest?.start ? new Date(quest.start).getTime() : NaN;
 
-  const start = new Date(quest?.created_at).getTime();
+  const waitingForStart = Number.isFinite(startTime) && currentTime < startTime;
 
-  const end = new Date(quest?.deadline).getTime();
-
-  const MS_PER_HOUR = 1000 * 60 * 60;
-
-  const currentHours = Math.max(
-    0,
-    Math.floor((now - start) / MS_PER_HOUR)
-  );
-
-  const totalHours = Math.max(
-    0,
-    Math.floor((end - start) / MS_PER_HOUR)
-  );
+  const canComplete =
+    quest?.status === "pending" &&
+    quest?.is_completed === false &&
+    !waitingForStart;
 
   console.log("reward", reward)
 
@@ -148,14 +161,14 @@ export default function QuestDetailPage({ route, navigation }) {
       <View
         style={[
           questDetailsStyles.progressCard,
-          quest?.completed && questDetailsStyles.completedProgressCard,
+          quest?.is_completed && questDetailsStyles.completedProgressCard,
         ]}
       >
         <View style={questDetailsStyles.timeIconContainer}>
           <MaterialCommunityIcons
             name="timer-outline"
             size={44}
-            color={quest?.completed === true ? "#22C55E" : "#19C7FF"}
+            color={quest?.is_completed === true ? "#22C55E" : "#19C7FF"}
           />
         </View>
 
@@ -170,10 +183,10 @@ export default function QuestDetailPage({ route, navigation }) {
           >
             Time Expired
           </Text> : <Text style={questDetailsStyles.progressTitle}>
-            TIME LEFT
+            {!waitingForStart ? "TIME LEFT" : "Starts in"}
           </Text>}
 
-          {quest?.completed ? (
+          {quest?.is_completed ? (
             <Text
               style={[
                 questDetailsStyles.timeValue,
@@ -183,7 +196,7 @@ export default function QuestDetailPage({ route, navigation }) {
               Completed
             </Text>
           ) : (
-            <CountdownTimer deadline={quest?.deadline} isCompleted={quest?.is_completed} />
+            <CountdownTimer deadline={quest?.deadline} start={quest?.start} isCompleted={quest?.is_completed} />
           )}
         </View>
 
@@ -279,20 +292,17 @@ export default function QuestDetailPage({ route, navigation }) {
       <View style={questDetailsStyles.bottomContainer}>
 
         <Pressable
+          disabled={!canComplete}
           style={[
             questDetailsStyles.completeButton,
-            (
-              quest.status !== 'pending' ||
-              new Date(quest.start).getTime() > Date.now()
-            ) ? questDetailsStyles.disabledButton : { backgroundColor: "#145AE8" }
+            !canComplete || quest.is_completed === true
+              ? questDetailsStyles.disabledButton
+              : { backgroundColor: "#145AE8" },
           ]}
-          onPress={
-            quest.is_completed === false
-              ? () => updateQuest(questId)
-              : null
-          }>
+          onPress={() => completeQuest()}
+        >
           <Text style={questDetailsStyles.completeButtonText}>
-            Mark as Complete
+            {waitingForStart ? "Quest Not Started" : "Mark as Complete"}
           </Text>
         </Pressable>
 
