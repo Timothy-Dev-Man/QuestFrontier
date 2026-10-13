@@ -125,3 +125,75 @@ export async function fetchUserSetup(token) {
     throw err
   }
 }
+
+export async function updateUsername(token, username) {
+  try {
+    const url = `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/update/name`
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ newName: username }),
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to update username: " + response.status)
+    }
+
+    return await response.json()
+  } catch (err) {
+    console.error("[user.api] Failed to update username", err)
+    throw err
+  }
+}
+
+export async function updateUserEmail(token, email) {
+  try {
+    const url = `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/update/email`
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ email }),
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to update email: " + response.status)
+    }
+
+    return await response.json()
+  } catch (err) {
+    console.error("[user.api] Failed to update email", err)
+    throw err
+  }
+}
+
+export async function updateUserPassword(token, password) {
+  try {
+    const url = `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/update/password`
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ password }),
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to update password: " + response.status)
+    }
+
+    return await response.json()
+  } catch (err) {
+    console.error("[user.api] Failed to update password", err)
+    throw err
+  }
+}
