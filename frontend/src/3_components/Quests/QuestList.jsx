@@ -28,8 +28,7 @@ function QuestList({ limit = false, quests = [], showSeeAll = false, navigation,
                         id={item.id}
                         title={item.title}
                         deadLine={item.deadline}
-                        createdAt={item.created_at}
-                        reward={item.reward}
+                        start={item.start}
                         status={item.status}
                         type={item.type}
                         difficulty={item.difficulty}

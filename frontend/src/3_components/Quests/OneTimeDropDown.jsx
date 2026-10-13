@@ -26,6 +26,9 @@ function Once({
   // START TIME
   questTime,
   setQuestTime,
+  deadline,
+  setDeadline,
+  setDeadlineTime,
   open,
   setOpen,
   active,
@@ -194,9 +197,7 @@ function Once({
 
                 const updatedDate = new Date(selectedDate);
 
-                updatedDate.setFullYear(year);
-                updatedDate.setMonth(month - 1);
-                updatedDate.setDate(date);
+                updatedDate.setFullYear(year, month - 1, date);
 
                 setSelectedDate(updatedDate);
 
@@ -204,11 +205,17 @@ function Once({
                 // but change its calendar date.
                 const updatedQuestTime = new Date(questTime);
 
-                updatedQuestTime.setFullYear(year);
-                updatedQuestTime.setMonth(month - 1);
-                updatedQuestTime.setDate(date);
+                updatedQuestTime.setFullYear(year, month - 1, date);
 
                 setQuestTime(updatedQuestTime);
+
+                const updatedDeadline = new Date(deadline);
+                updatedDeadline.setFullYear(year, month - 1, date);
+                setDeadline(updatedDeadline);
+
+                const updatedDeadlineTime = new Date(deadlineTime);
+                updatedDeadlineTime.setFullYear(year, month - 1, date);
+                setDeadlineTime(updatedDeadlineTime);
 
                 setCalendarOpen(false);
               }}

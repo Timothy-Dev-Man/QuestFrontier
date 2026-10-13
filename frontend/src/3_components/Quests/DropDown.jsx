@@ -156,6 +156,9 @@ function DropDown({
           /* START TIME */
           questTime={questTime}
           setQuestTime={setQuestTime}
+          deadline={deadline}
+          setDeadline={setDeadline}
+          setDeadlineTime={setDeadlineTime}
           open={open}
           setOpen={setOpen}
           active={active}
