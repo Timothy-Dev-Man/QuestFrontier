@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 
-import { useQuests, useError } from "../../2_services/context.js"
+import { useQuests, useError, useAuth } from "../../2_services/context.js"
 
 import DropDown from "../../3_components/Quests/DropDown.jsx"
 import ExpPill from "../../3_components/Utils/ExpPill.jsx"
@@ -40,11 +40,12 @@ const CreateQuest = ({ navigation }) => {
 
   const { questCreation } = useQuests()
   const { setError } = useError()
+  const { token } = useAuth()
 
   async function handleQuestCreation() {
     if (questTitle && questTime && deadline && questType && difficulty) {
       try {
-        await questCreation({ questTitle, questTime, deadline, questType, questDescription, difficulty })
+        await questCreation({ questTitle, questTime, deadline, questType, questDescription, difficulty }, token)
         navigation.navigate("Home")
       } catch (err) {
         console.error(err)
