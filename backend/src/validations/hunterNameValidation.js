@@ -5,6 +5,6 @@ export const hunterNameValidation = [
     .trim()
     .notEmpty()
     .withMessage("Hunter name is required")
-    .isLength({ min: 2, max: 10 })
+    .isLength({ min: 2, max: 15 })
     .withMessage("Hunter name must be between 2 and 30 characters"),
 ];
