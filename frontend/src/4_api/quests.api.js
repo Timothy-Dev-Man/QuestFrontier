@@ -62,8 +62,32 @@ export async function fetchCreateQuests(token, credentials) {
     )
 
     if (!response.ok) {
-      const errData = await response.json().catch(() => null)
-      throw new Error(errData?.message || "Failed to create quest")
+
+      const responseText = await response.text();
+
+      let errData;
+      try {
+        errData = JSON.parse(responseText);
+      } catch {
+        errData = null;
+      }
+
+      if (!response.ok) {
+        console.error("[quests.api] Server rejected quest:", {
+          status: response.status,
+          body: errData ?? responseText,
+        });
+
+        throw new Error(
+          errData?.message ||
+          errData?.error ||
+          JSON.stringify(errData?.errors) ||
+          `Failed to create quest (${response.status})`
+        );
+      }
+
+      return errData;
+
     }
 
     const data = await response.json()
