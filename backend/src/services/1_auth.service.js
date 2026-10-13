@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import pool from "../../DB/config/db.js"
 
-async function hashPassword(plainPassword) {
+export async function hashPassword(plainPassword) {
   // hash the password using bcrypt and return the hash
   try {
     if (!plainPassword || typeof plainPassword !== "string") {
