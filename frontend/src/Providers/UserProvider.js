@@ -35,8 +35,9 @@ export function UserProvider({ children }) {
   const [setup, setSetupState] = useState(undefined)
 
   const [loadingForProfile, setLoadingForProfile] = useState(false)
+  const [profileLoaded, setProfileLoaded] = useState(false);
 
-  const { token } = useContext(AuthContext)
+  const { token, setUser } = useContext(AuthContext)
   const { setError } = useContext(ErrorContext)
 
 
@@ -53,9 +54,16 @@ export function UserProvider({ children }) {
 
         const profile = await fetchUserProfile(effectiveToken)
 
-        console.log("USER PROFILE:", profile)
+        console.log("USER PROFILE:", profile.hunter)
+        const hunter = profile?.hunter ?? profile
 
-        setHunterName(profile.hunterName.username)
+        if (!hunter?.username) {
+          console.error("Invalid user profile:", profile)
+          return
+        }
+
+        setUser(hunter)
+        setHunterName(hunter.username)
         setStats(profile.stats)
         setStreak(profile.streak)
         setWeekly(profile.weekly)
@@ -75,6 +83,7 @@ export function UserProvider({ children }) {
         throw err
       } finally {
         setLoadingForProfile(false)
+        setProfileLoaded(true)
       }
     },
     [token],
@@ -89,18 +98,8 @@ export function UserProvider({ children }) {
 
         const results = await fetchUserSetup(effectiveToken)
 
-        console.log("fetchUserSetup results:", results)
-
-        // Handles:
-        // true
-        // false
-        // { setup_complete: true }
-        // { set_up: true }
-        const newSetup =
-          typeof results === "boolean"
-            ? results
-            : Boolean(results?.setup ?? results?.setup_complete ?? results?.set_up)
-
+        const newSetup = results?.setup_complete
+        console.log("newSetup: ", newSetup)
         setSetupState(newSetup)
 
         return newSetup
@@ -234,7 +233,7 @@ export function UserProvider({ children }) {
 
         console.log("USER PROFILE:", profile)
 
-        setHunterName(profile.hunterName.username)
+        setHunterName(profile.hunter.username)
         setStats(profile.stats)
         setStreak(profile.streak)
         setWeekly(profile.weekly)
@@ -260,6 +259,7 @@ export function UserProvider({ children }) {
       } finally {
         if (!cancelled) {
           setLoadingForProfile(false)
+          setProfileLoaded(true)
         }
       }
     }
@@ -284,6 +284,8 @@ export function UserProvider({ children }) {
         weekly,
         progress,
         loadingForProfile,
+        profileLoaded,
+        setProfileLoaded,
 
         coins,
         inventory,
