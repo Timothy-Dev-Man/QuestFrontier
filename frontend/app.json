@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "System",
+    "name": "QuestFrontier",
     "slug": "System",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,10 +10,10 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "#080B20",
       "android": {
-      "jsEngine": "hermes"
-    }
+        "jsEngine": "hermes"
+      }
     },
     "ios": {
       "supportsTablet": true,
@@ -21,14 +21,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#080B20"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.devtim08.System"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2384d4ee-785e-4eec-a6ad-b2f2b59a8146"
+      }
     }
   }
 }
