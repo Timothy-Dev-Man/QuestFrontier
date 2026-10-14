@@ -50,7 +50,9 @@ const Register = ({ navigation }) => {
   const canRegister =
     username.trim().length > 0 &&
     email.trim().length > 0 &&
-    password.length >= 8
+    password.length >= 8 &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
 
   return (
     <KeyboardAvoidingView
