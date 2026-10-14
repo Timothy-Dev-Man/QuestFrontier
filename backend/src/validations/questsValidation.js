@@ -65,9 +65,9 @@ export const createQuestValidation = [
 
     .trim()
 
-    .isLength({ max: 100 })
+    .isLength({ max: 300 })
 
-    .withMessage("Quest description must be less than 50 characters"),
+    .withMessage("Quest description must be less than 300 characters"),
 
 
   body("questData.difficulty")
@@ -76,7 +76,7 @@ export const createQuestValidation = [
 
     .withMessage("Difficulty is required")
 
-    .isIn(["Easy", "Meduim", "Hard", "Extreme"])
+    .isIn(["Easy", "Medium", "Hard", "Extreme"])
 
     .withMessage("Error setting difficulty"),
 
