@@ -143,6 +143,54 @@ export async function fetchUpdateProgress(token, questId) {
   }
 }
 
+export async function fetchUpdateDescription(token, questId, newDescription) {
+  console.log("newDescription: ", newDescription)
+  try {
+
+    const url =
+      `${process.env.EXPO_PUBLIC_BACKEND_URL}/quests/${questId}/updateDescription`
+    const response = await fetch(
+      url,
+      {
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          newDescription: newDescription
+        })
+      },
+    )
+
+    const data = await response.json().catch(() => null)
+
+    if (!response.ok) {
+
+      if (response.status === 401) {
+        throw new Error("Unauthorized")
+      }
+
+      throw new Error(
+        data?.message ||
+        `Failed to update quest (${response.status})`
+      )
+    }
+
+    return data
+
+  } catch (err) {
+
+    console.error(
+      "[quests.api] Failed to update quest description",
+      err
+    )
+
+    throw err
+  }
+}
+
 export async function fetchPenaltyForQuest(token) {
   try {
     const response = await fetch(
@@ -168,3 +216,4 @@ export async function fetchPenaltyForQuest(token) {
     throw err
   }
 }
+

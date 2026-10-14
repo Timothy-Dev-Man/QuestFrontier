@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { View, Text, Pressable, ActivityIndicator } from "react-native"
+import { View, Text, Pressable, ActivityIndicator, TextInput } from "react-native"
 
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
@@ -12,7 +12,7 @@ import { styles } from "../../2_services/styles"
 import { questDetailsStyles } from "../../Styles/questDetailsStyles"
 
 import { useQuests, useError } from "../../2_services/context"
-import { fetchQuestById, fetchUpdateProgress } from "../../4_api/quests.api"
+import { fetchQuestById, fetchUpdateDescription } from "../../4_api/quests.api"
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { STORAGE_KEYS } from "../../2_services/storage"
@@ -22,6 +22,8 @@ export default function QuestDetailPage({ route, navigation }) {
   const { questId } = route.params
 
   const [quest, setQuest] = useState(null)
+  const [newDescription, setNewDescription] = useState(null)
+  const [showNewDescription, setShowNewDescription] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const { reward, getUserQuests, updateQuest, showReward, setShowReward } = useQuests()
@@ -78,6 +80,21 @@ export default function QuestDetailPage({ route, navigation }) {
 
   }
 
+  async function updateDescription() {
+    try {
+      const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN)
+      if (newDescription != null) {
+
+        const data = await fetchUpdateDescription(token, questId, newDescription)
+
+        setQuest(data)
+        setShowNewDescription(false)
+      }
+    } catch (err) {
+      setError(err)
+    }
+  }
+
   if (loading) {
     return <ActivityIndicator style={styles.progress} size="large" />
   }
@@ -90,8 +107,6 @@ export default function QuestDetailPage({ route, navigation }) {
     quest?.status === "pending" &&
     quest?.is_completed === false &&
     !waitingForStart;
-
-  console.log("reward", reward)
 
   return (
 
@@ -150,10 +165,88 @@ export default function QuestDetailPage({ route, navigation }) {
 
         <View style={questDetailsStyles.divider} />
 
-        <Text style={questDetailsStyles.description}>
-          {quest.description || "No description provided"}
-        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
+          {showNewDescription ? (
+            <View style={{ flex: 1, gap: 10 }}>
+              <TextInput
+                value={newDescription ?? ""}
+                onChangeText={setNewDescription}
+                placeholder="Enter quest description..."
+                placeholderTextColor="#8A94A6"
+                maxLength={300}
+                multiline
+                style={[
+                  questDetailsStyles.description,
+                  {
+                    borderWidth: 1,
+                    borderColor: "#19C7FF",
+                    borderRadius: 8,
+                    padding: 10,
+                    minHeight: 80,
+                    textAlignVertical: "top",
+                  },
+                ]}
+              />
 
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <Pressable
+                  onPress={updateDescription}
+                  style={{
+                    backgroundColor: "#145AE8",
+                    paddingVertical: 8,
+                    paddingHorizontal: 16,
+                    borderRadius: 8,
+                  }}
+                >
+                  <Text style={{ color: "#FFFFFF", fontWeight: "bold" }}>
+                    Save
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={() => {
+                    setNewDescription(quest.description ?? "")
+                    setShowNewDescription(false)
+                  }}
+                  style={{
+                    backgroundColor: "#434966",
+                    paddingVertical: 8,
+                    paddingHorizontal: 16,
+                    borderRadius: 8,
+                  }}
+                >
+                  <Text style={{ color: "#FFFFFF", fontWeight: "bold" }}>
+                    Cancel
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          ) : (
+            <>
+              <Text style={[questDetailsStyles.description, { flex: 1 }]}>
+                {quest.description || "No description provided"}
+              </Text>
+
+              <Pressable
+                onPress={() => {
+                  setNewDescription(quest.description ?? "")
+                  setShowNewDescription(true)
+                }}
+                style={{ alignSelf: "flex-end", marginBottom: 5 }}
+              >
+                <MaterialCommunityIcons
+                  name="text-box-edit"
+                  size={22}
+                  color="#19c5ffd1"
+                />
+              </Pressable>
+            </>
+
+          )}
+        </View>
+        <Text style={{ color: "#8A94A6", fontSize: 11, textAlign: "right" }}>
+          {(newDescription ?? "").length} / 300
+        </Text>
       </View>
 
 
