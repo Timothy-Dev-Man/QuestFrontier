@@ -42,6 +42,24 @@ export async function getUserQuests(userId) {
   }
 }
 
+export async function updateQuestDescription(userId, questId, newDescription) {
+  try {
+    if (newDescription === null) {
+      newDescription = ''
+    }
+    const sql = `
+  UPDATE quests
+  SET description = $1
+  WHERE id = $2 AND user_id = $3
+  RETURNING *;
+`;
+    const results = await pool.query(sql, [newDescription, questId, userId])
+    return results.rows[0]
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
 export async function getQuestById(userId, questId) {
   try {
     const sql = `SELECT * FROM quests WHERE user_id = $1 AND id = $2`

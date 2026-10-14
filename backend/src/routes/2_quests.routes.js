@@ -1,13 +1,17 @@
 // auth.routes.js
 import express from "express"
+
 import { authenticate } from "../middleware/auth.middleware.js"
 import { validate } from "../middleware/validation.middleware.js"
 import { createQuestValidation } from "../validations/questsValidation.js"
+import { questDescriptionValidation } from "../validations/questDescriptionValidation.js"
+
 import {
   getQuestsController,
   getQuestsByIdController,
   createQuestController,
   updateProgressController,
+  updateQuestDescriptionController
 } from "../controllers/2_quests.controller.js"
 
 const router = express.Router()
@@ -23,6 +27,10 @@ router.post("/", authenticate, ...createQuestValidation, validate, createQuestCo
 
 // POST an update
 router.put("/:id/update", authenticate, updateProgressController)
+
+// POST an update
+router.put("/:id/updateDescription", authenticate, ...questDescriptionValidation, validate, updateQuestDescriptionController)
+
 
 
 export default router

@@ -3,6 +3,7 @@ import {
   getQuestById,
   createQuest,
   updateProgress,
+  updateQuestDescription
 } from "../services/2_quests.service.js"
 
 export async function getQuestsController(req, res) {
@@ -37,6 +38,27 @@ export async function getQuestsByIdController(req, res) {
     res.status(200).json(getQuestId)
   } catch (err) {
     res.status(400).json(err.message)
+  }
+}
+
+export async function updateQuestDescriptionController(req, res) {
+  try {
+    const userId = req.user.id
+    const questId = req.params.id
+    const { newDescription } = req.body;
+    if (!questId) {
+      return res.status(400).json({ message: "No questId provided" });
+    }
+
+    const updateDescription = await updateQuestDescription(userId, questId, newDescription)
+
+    res.status(201).json(updateDescription)
+  } catch (err) {
+    console.error("updateQuestDescriptionController error:", err)
+    res.status(500).json({
+      message: err.message,
+    });
+
   }
 }
 
