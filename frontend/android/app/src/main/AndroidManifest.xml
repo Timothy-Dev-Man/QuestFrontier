@@ -1,20 +1,13 @@
-<!-- REQUIRED FOR OVERLAY: AndroidManifest declares OverlayService, SYSTEM_ALERT_WINDOW permission, and foreground service permissions -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <!-- REQUIRED FOR OVERLAY: Permission to draw system alert window overlay -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-  <!-- REQUIRED FOR OVERLAY: Permission to get running tasks for app detection -->
   <uses-permission android:name="android.permission.GET_TASKS"/>
-  <!-- REQUIRED FOR OVERLAY: Permissions for foreground service that runs the overlay -->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
-
-
-
   <queries>
     <intent>
       <action android:name="android.intent.action.VIEW"/>
@@ -23,23 +16,15 @@
     </intent>
   </queries>
   <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="true" android:theme="@style/AppTheme" android:supportsRtl="true" android:enableOnBackInvokedCallback="false">
-  <service
-    android:name=".AppWatcherService"
-    android:exported="false"
-    android:enabled="true"
-    android:foregroundServiceType="specialUse">
-    <property
-      android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-      android:value="Foreground app monitoring"/>
-  </service>
-  <!-- REQUIRED FOR OVERLAY: Service that manages the overlay window display -->
-  <service
-    android:name=".OverlayService"
-    android:exported="false"/>
-
-    <meta-data android:name="expo.modules.updates.ENABLED" android:value="false"/>
+    <service android:name=".AppWatcherService" android:exported="false" android:enabled="true" android:foregroundServiceType="specialUse">
+      <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Foreground app monitoring"/>
+    </service>
+    <service android:name=".OverlayService" android:exported="false"/>
+    <meta-data android:name="expo.modules.updates.ENABLED" android:value="true"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://u.expo.dev/2384d4ee-785e-4eec-a6ad-b2f2b59a8146"/>
+    <meta-data android:name="expo.modules.updates.EXPO_RUNTIME_VERSION" android:value="@string/expo_runtime_version"/>
     <activity android:name=".MainActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.App.SplashScreen" android:exported="true" android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
