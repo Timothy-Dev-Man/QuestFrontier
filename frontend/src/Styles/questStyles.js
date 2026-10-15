@@ -13,9 +13,10 @@ export const questStyles = StyleSheet.create({
 
         alignItems: 'center',
         borderRadius: 10,
-        width: 110,
-        padding: 5,
-        paddingHorizontal: 5,
+        width: "30%",
+        minHeight: 44,
+        padding: 8,
+        paddingHorizontal: 8,
         flexDirection: 'row',
         gap: 5
     },
@@ -26,8 +27,9 @@ export const questStyles = StyleSheet.create({
 
         alignItems: 'center',
         borderRadius: 10,
-        width: 100,
-        padding: 10
+        width: "28%",
+        minHeight: 44,
+        padding: 8
     },
     questTypeIconDeactive: {
         shadowColor: "#505258",
@@ -46,7 +48,7 @@ export const questStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-evenly",
         alignItems: 'center',
-        gap: 17
+        gap: 8,
     },
     questTypeOuterContainerText: {
         textAlign: 'left',
@@ -59,7 +61,7 @@ export const questStyles = StyleSheet.create({
         backgroundColor: '#1E2544',
         alignItems: 'center',
         borderRadius: 8,
-        padding: 14,
+        padding: 12,
         width: '100%',
         gap: 8
     },
@@ -84,7 +86,7 @@ export const questStyles = StyleSheet.create({
 
     timeLabel: {
         color: "#dcdcdc",
-        fontSize: 13,
+        fontSize: 12,
         marginBottom: 6,
         marginLeft: 0,
     },
@@ -92,7 +94,7 @@ export const questStyles = StyleSheet.create({
     timeInput: {
         backgroundColor: "#1E2544",
         paddingHorizontal: 12,
-        height: 42,
+        height: 48,
         width: "100%",
         borderWidth: 1,
         borderColor: "#505258",
@@ -140,7 +142,7 @@ export const questStyles = StyleSheet.create({
     },
 
     timeOption: {
-        height: 40,
+        height: 44,
         paddingHorizontal: 12,
         justifyContent: 'center',
     },
@@ -152,7 +154,7 @@ export const questStyles = StyleSheet.create({
         borderColor: '#505258',
         borderRadius: 10,
         width: '100%',
-        height: 38,
+        height: 40,
         overflow: 'hidden',
     },
 
@@ -202,7 +204,7 @@ export const questStyles = StyleSheet.create({
 
         alignItems: 'center',
         borderRadius: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 12,
         color: '#fff'
     },
 

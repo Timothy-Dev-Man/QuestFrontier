@@ -27,7 +27,7 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    padding: 14,
     backgroundColor: COLORS.background,
   },
 
@@ -40,7 +40,7 @@ export const globalStyles = StyleSheet.create({
     borderColor: '#12417E',
     borderStyle: 'solid',
     borderWidth: 1,
-    marginTop: 20,
+    marginTop: 16,
     justifyContent: 'center'
   }
 })
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    padding: 14,
     backgroundColor: COLORS.background,
   },
   edgeGlowContainer: {

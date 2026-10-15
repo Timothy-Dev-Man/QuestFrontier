@@ -15,8 +15,8 @@ const authStyles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
         justifyContent: "center",
-        paddingHorizontal: 14,
-        paddingVertical: 30,
+        paddingHorizontal: 16,
+        paddingVertical: 24,
     },
 
     backgroundGlowOne: {
@@ -49,9 +49,9 @@ const authStyles = StyleSheet.create({
         borderRadius: 18,
         overflow: "hidden",
 
-        paddingHorizontal: 22,
-        paddingTop: 28,
-        paddingBottom: 25,
+        paddingHorizontal: 20,
+        paddingTop: 24,
+        paddingBottom: 24,
 
         backgroundColor: "rgba(3, 12, 28, 0.45)",
 
@@ -88,7 +88,7 @@ const authStyles = StyleSheet.create({
         fontSize: 13,
         textAlign: "center",
         marginTop: 7,
-        marginBottom: 28,
+        marginBottom: 20,
     },
 
     form: {
@@ -97,26 +97,26 @@ const authStyles = StyleSheet.create({
 
     label: {
         color: "#6E84A7",
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: "700",
         letterSpacing: 1.2,
         marginBottom: 8,
     },
 
     input: {
-        height: 46,
+        height: 48,
         backgroundColor: "#0B1930",
         borderWidth: 1,
         borderColor: "#1A304E",
         borderRadius: 7,
         paddingHorizontal: 13,
         color: "#E7F2FF",
-        fontSize: 12,
-        marginBottom: 18,
+        fontSize: 14,
+        marginBottom: 16,
     },
 
     passwordContainer: {
-        height: 46,
+        height: 48,
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#0B1930",
@@ -131,7 +131,7 @@ const authStyles = StyleSheet.create({
         height: "100%",
         paddingHorizontal: 13,
         color: "#E7F2FF",
-        fontSize: 12,
+        fontSize: 14,
     },
 
     passwordRule: {
@@ -160,7 +160,7 @@ const authStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 25,
+        marginBottom: 20,
     },
 
     forgotText: {
@@ -170,7 +170,7 @@ const authStyles = StyleSheet.create({
 
     loginButton: {
         width: "100%",
-        height: 46,
+        height: 48,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#1265DB",
@@ -195,7 +195,7 @@ const authStyles = StyleSheet.create({
 
     loginButtonText: {
         color: "#FFFFFF",
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: "800",
         letterSpacing: 1,
     },
@@ -208,24 +208,24 @@ const authStyles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 18,
+        marginTop: 16,
     },
 
     bottomText: {
         color: "#71819B",
-        fontSize: 10,
+        fontSize: 12,
     },
 
     linkText: {
         color: "#45A5FF",
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: "700",
     },
     registerButton: {
 
         width: "100%",
 
-        height: 46,
+        height: 48,
 
         alignItems: "center",
 
@@ -271,7 +271,7 @@ const authStyles = StyleSheet.create({
 
         color: "#FFFFFF",
 
-        fontSize: 11,
+        fontSize: 12,
 
         fontWeight: "800",
 

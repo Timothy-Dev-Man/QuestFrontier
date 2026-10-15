@@ -223,7 +223,7 @@ export const user = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingTop: 8,
-    marginBottom: 14,
+    marginBottom: 12,
   },
 
   itemIconBox: {
@@ -265,9 +265,9 @@ export const user = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(94, 167, 255, 0.45)",
     borderRadius: 20,
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
     paddingTop: 12,
-    paddingBottom: 16,
+    paddingBottom: 12,
     alignItems: "center",
     shadowColor: COLORS.accent,
     shadowOffset: {
@@ -291,7 +291,7 @@ export const user = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(94, 167, 255, 0.28)",
     borderRadius: 14,
-    padding: 18,
+    padding: 16,
   },
 
   costHeader: {
@@ -310,7 +310,7 @@ export const user = StyleSheet.create({
 
   costValue: {
     color: COLORS.accent,
-    fontSize: 23,
+    fontSize: 22,
     fontWeight: "900",
     letterSpacing: 0.5,
   },
@@ -319,19 +319,19 @@ export const user = StyleSheet.create({
     width: "100%",
     height: 1,
     backgroundColor: "rgba(94, 167, 255, 0.25)",
-    marginVertical: 15,
+    marginVertical: 12,
   },
 
   description: {
     color: "rgba(237, 246, 255, 0.82)",
-    fontSize: 15,
+    fontSize: 14,
     lineHeight: 23,
     letterSpacing: 0.2,
   },
 
   buyButton: {
     width: "82%",
-    height: 56,
+    height: 48,
     backgroundColor: COLORS.accent,
     borderRadius: 13,
     alignItems: "center",
@@ -350,7 +350,7 @@ export const user = StyleSheet.create({
 
   buyButtonText: {
     color: COLORS.background,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "900",
     letterSpacing: 2.5,
   },

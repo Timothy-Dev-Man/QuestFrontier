@@ -15,8 +15,8 @@ export default function Inventory() {
   }, [getUserInventory])
 
   return (
-    <View style={[styles.menuContainer, { flex: 0.8, paddingTop: 10, margin: 'auto', minWidth: '100%', alignItems: 'center' }]}>
-      <Text style={{ textAlign: 'center', color: "#DDE8FF", fontSize: 20, }}>Inventory</Text>
+    <View style={[styles.menuContainer, { flex: 0.8, paddingTop: 12, margin: 0, minWidth: '100%', alignItems: 'center' }]}>
+      <Text style={{ textAlign: 'center', color: "#DDE8FF", fontSize: 18, }}>Inventory</Text>
 
       <FlatList
         style={user.gridList}

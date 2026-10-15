@@ -69,7 +69,7 @@ function ChangePassword() {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.content}>
-                <View style={{ marginTop: 20 }}>
+                <View style={{ marginTop: 16 }}>
                     <BackArrow navigation={navigation} />
                 </View>
 
@@ -92,7 +92,7 @@ function ChangePassword() {
                                     setNewPassword={setNewPassword}
                                     newPassword={newPassword}
                                 />
-                                <View style={{ marginBottom: 10 }}>
+                                <View style={{ marginBottom: 12 }}>
                                     <View style={authStyles.passwordRule}>
                                         <MaterialCommunityIcons
                                             name={newPassword.length >= 8 ? "check-circle" : "circle-outline"}
@@ -172,18 +172,18 @@ const styles = StyleSheet.create({
 
     content: {
         flexGrow: 1,
-        paddingHorizontal: 24,
+        paddingHorizontal: 16,
         paddingTop: 12,
-        paddingBottom: 36,
-        gap: 40,
+        paddingBottom: 16,
+        gap: 28,
     },
 
     title: {
         color: "#FFFFFF",
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: "800",
         textAlign: "center",
-        marginTop: 25,
+        marginTop: 16,
         marginBottom: 12,
         letterSpacing: 0.3,
     },
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         lineHeight: 23,
         textAlign: "center",
-        marginBottom: 32,
+        marginBottom: 24,
         paddingHorizontal: 8,
     },
 
@@ -202,8 +202,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#071839",
         borderWidth: 1,
         borderColor: "#173568",
-        borderRadius: 16,
-        padding: 20,
+        borderRadius: 10,
+        padding: 16,
         shadowColor: "#1468D7",
         shadowOffset: {
             width: 0,

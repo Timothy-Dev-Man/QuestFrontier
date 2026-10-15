@@ -15,7 +15,7 @@ const FilterPill = ({
 
     icon = "filter-variant",
     showIcon = false,
-    minWidth = 100
+    minWidth = 0
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -25,11 +25,11 @@ const FilterPill = ({
     };
 
     return (
-        <View style={{ position: "relative", zIndex: open ? 100 : 1, justifyContent: 'center', minWidth: minWidth }}>
+        <View style={{ position: "relative", zIndex: open ? 100 : 1, justifyContent: 'center', flex: 1, minWidth: minWidth }}>
             <Pressable onPress={() => setOpen(!open)}
                 style={{
-                    height: 40,
-                    paddingHorizontal: 6,
+                    height: 44,
+                    paddingHorizontal: 4,
 
                     backgroundColor: "#071A35",
                     borderColor: "#29456D",
@@ -46,6 +46,8 @@ const FilterPill = ({
                     style={{
                         flexDirection: "row",
                         alignItems: "center",
+                        flex: 1,
+                        minWidth: 0,
                         gap: 6,
                     }}
                 >
@@ -60,7 +62,8 @@ const FilterPill = ({
                     <Text
                         style={{
                             color: "#D7DCE5",
-                            fontSize: 12.5,
+                            fontSize: 11,
+                            flexShrink: 1,
                         }}
                     >
                         {title}: {value}

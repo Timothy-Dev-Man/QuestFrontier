@@ -67,7 +67,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
             <View
                 style={[{
                     marginVertical: 8,
-                    marginHorizontal: 12,
+                    marginHorizontal: 8,
                     borderRadius: 16,
                     backgroundColor: "#1c1c24",
                     borderWidth: 1,
@@ -79,7 +79,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
                     style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        padding: 14,
+                        padding: 12,
                         minHeight: 90,
                     }}
                     onPress={!isItem ? handleViewingItem : null}
@@ -93,7 +93,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
                                 backgroundColor: "#292934",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                marginRight: 14,
+                                marginRight: 12,
                             }}
                         >
                             <Image
@@ -128,7 +128,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
 
                         <Text
                             style={{
-                                fontSize: 13,
+                                fontSize: 12,
                                 color: "#a9a9b5",
                                 lineHeight: 18,
                             }}
@@ -162,7 +162,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
 
                                     <Text
                                         style={{
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: "800",
                                             color: progress.coins < price
                                                 ? "#EF4444"
@@ -176,7 +176,7 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
                                 onPress={() => handleUse()}
                                 style={{
                                     backgroundColor: '#4CFF88',
-                                    padding: 5,
+                                    padding: 8,
                                     borderRadius: 10,
                                 }}>
                                 <Text>Use</Text>

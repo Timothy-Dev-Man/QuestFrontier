@@ -76,7 +76,7 @@ const Register = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={[authStyles.title, { fontSize: 30, marginBottom: 25 }]}>QuestTracker</Text>
+          <Text style={[authStyles.title, { fontSize: 28, marginBottom: 20 }]}>QuestTracker</Text>
           <BlurView
             intensity={45}
             tint="dark"
@@ -147,7 +147,7 @@ const Register = ({ navigation }) => {
 
                 </View>
 
-                <View style={{ marginBottom: 10 }}>
+                <View style={{ marginBottom: 12 }}>
                   <View style={authStyles.passwordRule}>
                     <MaterialCommunityIcons
                       name={password.length >= 8 ? "check-circle" : "circle-outline"}

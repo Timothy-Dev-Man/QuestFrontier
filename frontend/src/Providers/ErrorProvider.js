@@ -2,8 +2,8 @@ import React, { createContext, useCallback, useState } from "react"
 
 export const ErrorContext = createContext({
   error: null,
-  setError: () => {},
-  clearError: () => {},
+  setError: () => { },
+  clearError: () => { },
 })
 
 export function ErrorProvider({ children }) {

@@ -87,7 +87,7 @@ const BlockedApps = () => {
                 backgroundColor="#080F1A"
             />
 
-            <Text style={[styles.pageTitle, { marginTop: 20 }]}>
+            <Text style={[styles.pageTitle, { marginTop: 16 }]}>
                 Blocked Apps
             </Text>
 
@@ -239,8 +239,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#080F1A",
-        paddingHorizontal: 14,
-        paddingTop: 10,
+        paddingHorizontal: 16,
+        paddingTop: 12,
     },
 
     pageTitle: {
@@ -285,8 +285,8 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        paddingHorizontal: 12,
-        paddingTop: 12,
+        paddingHorizontal: 16,
+        paddingTop: 16,
     },
 
     list: {
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     },
 
     rule: {
-        minHeight: 62,
+        minHeight: 56,
         borderWidth: 1,
         borderColor: "#1A3152",
         backgroundColor: "#101D31",
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     },
 
     continueButton: {
-        height: 46,
+        height: 48,
         borderWidth: 1,
         borderColor: "#315D91",
         backgroundColor: "#142944",

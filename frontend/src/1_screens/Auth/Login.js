@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={[authStyles.title, { fontSize: 30, marginBottom: 25 }]}>QuestTracker</Text>
+          <Text style={[authStyles.title, { fontSize: 28, marginBottom: 20 }]}>QuestTracker</Text>
           <BlurView
             intensity={45}
             tint="dark"

@@ -28,7 +28,7 @@ function ChangeEmail() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 16 }}>
           <BackArrow navigation={navigation} />
         </View>
 
@@ -59,25 +59,25 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    padding: 24,
+    padding: 16,
     alignText: 'center',
-    gap: '10%'
+    gap: 28,
   },
   backButton: {
     color: "#5EA7FF",
     fontSize: 16,
-    marginBottom: 30,
+    marginBottom: 24,
   },
   title: {
     color: "#FFFFFF",
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
   },
   subtitle: {
     color: "#8B96B5",
     fontSize: 14,
-    marginBottom: 30,
+    marginBottom: 24,
   },
   form: {
     width: "100%",

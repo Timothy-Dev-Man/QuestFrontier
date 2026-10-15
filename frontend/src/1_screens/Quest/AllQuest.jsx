@@ -77,7 +77,7 @@ const QuestsList = () => {
     <SafeAreaView style={styles.screen}>
       <View style={styles.appContainer}>
 
-        <View style={{ margin: 20, marginTop: 45 }}>
+        <View style={{ marginHorizontal: 16, marginTop: 40, marginBottom: 16 }}>
           <HeaderTitle title="QUESTS" />
         </View>
 
@@ -184,7 +184,7 @@ const QuestsList = () => {
           style={({ pressed }) => [
             styles.createButtonWrapper,
             pressed && styles.createButtonPressed,
-            { marginTop: 20 }
+            { marginTop: 16 }
           ]}
         >
           <LinearGradient
@@ -206,7 +206,7 @@ const QuestsList = () => {
           </LinearGradient>
         </Pressable>
 
-        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 15 }}>
+        <View style={{ marginHorizontal: 16, marginBottom: 8 }}>
           <NavBar />
         </View>
 
@@ -294,22 +294,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
-    gap: 10,
+    paddingHorizontal: 16,
+    gap: 8,
     zIndex: 50,
   },
 
   sectionContainer: {
-    marginTop: 18,
-    paddingHorizontal: 24,
+    marginTop: 16,
+    paddingHorizontal: 16,
   },
 
   /* ---------------- QUEST PANEL ---------------- */
 
   questPanel: {
     flex: 1,
-    marginHorizontal: 20,
-    marginTop: 10,
+    marginHorizontal: 16,
+    marginTop: 8,
 
     borderRadius: 24,
     borderWidth: 1,
@@ -390,10 +390,10 @@ const styles = StyleSheet.create({
   /* ---------------- CREATE BUTTON ---------------- */
 
   createButtonWrapper: {
-    width: "80%",
+    width: "90%",
     alignSelf: "center",
-    marginHorizontal: 24,
-    marginBottom: 20,
+    marginHorizontal: 0,
+    marginBottom: 12,
 
     borderRadius: 16,
 
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
   },
 
   createButton: {
-    height: 56,
+    height: 52,
     borderRadius: 16,
 
     flexDirection: "row",
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
 
   createButtonText: {
     color: "#D8F4FF",
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "500",
     marginLeft: 10,
     letterSpacing: 0.5,

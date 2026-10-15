@@ -74,7 +74,7 @@ function Once({
           >
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 14,
                 color: "#e9e6e6",
                 fontWeight: 500,
                 fontFamily: "Orbitron_400Regular"
@@ -98,8 +98,8 @@ function Once({
       {/* DATE */}
       <View style={{
         width: "100%",
-        marginTop: 4,
-        marginBottom: 14,
+        marginTop: 8,
+        marginBottom: 12,
       }}>
 
         <Text style={questStyles.timeLabel}>

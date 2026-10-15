@@ -46,7 +46,7 @@ const Home = () => {
         backgroundColor: "#092356",
         justifyContent: 'space-evenly',
 
-        marginTop: 20,
+        marginTop: 16,
         padding: 0,
 
         borderTopLeftRadius: 24,
@@ -54,19 +54,19 @@ const Home = () => {
 
         borderColor: '#12417E',
         borderStyle: 'solid',
-        marginBottom: -5
+        marginBottom: 0
       }}>
         <HomeHeaderProfile name={hunterName} exp={progress?.exp} level={progress?.level} requiredExp={progress?.exp_to_next_level} />
       </View>
       <View style={{
         flex: 1,
-        gap: 10,
+        gap: 12,
 
         backgroundColor: "#092356",
         justifyContent: 'space-evenly',
 
-        paddingVertical: 20,
-        padding: 12,
+        paddingVertical: 16,
+        padding: 16,
 
         borderLeftWidth: 1,
         borderRightWidth: 1,

@@ -57,7 +57,7 @@ export default function Stats() {
         {/* Main content */}
         <View style={styles.content}>
 
-          <View style={{ marginBottom: 15 }}>
+          <View style={{ marginBottom: 12 }}>
             <HeaderTitle title="STATS" />
           </View>
 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
 
   content: {
     width: "100%",
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     gap: 12,
     justifyContent: "center",
   },

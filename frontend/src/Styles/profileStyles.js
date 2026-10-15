@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
 
     content: {
         flex: 1,
-        paddingHorizontal: 18,
-        paddingTop: 35,
+        paddingHorizontal: 16,
+        paddingTop: 24,
     },
 
 
@@ -71,8 +71,8 @@ export const styles = StyleSheet.create({
 
         backgroundColor: "#071426",
 
-        paddingHorizontal: 22,
-        paddingVertical: 25,
+        paddingHorizontal: 18,
+        paddingVertical: 20,
 
         flexDirection: "row",
         alignItems: "center",
@@ -170,7 +170,7 @@ export const styles = StyleSheet.create({
     /* MENU */
 
     menuContainer: {
-        marginTop: 28,
+        marginTop: 20,
 
         borderRadius: 15,
 
@@ -183,10 +183,10 @@ export const styles = StyleSheet.create({
     },
 
     menuRow: {
-        minHeight: 62,
+        minHeight: 56,
         flexDirection: "row",
         alignItems: "center",
-        paddingHorizontal: 18,
+        paddingHorizontal: 16,
     },
 
     menuText: {

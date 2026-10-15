@@ -7,7 +7,7 @@ export const questDetailsStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 20,
+        marginBottom: 16,
     },
 
     backButton: {
@@ -21,7 +21,7 @@ export const questDetailsStyles = StyleSheet.create({
 
     headerTitle: {
         color: "#78AFFF",
-        fontSize: 21,
+        fontSize: 20,
         fontWeight: "300",
         letterSpacing: 1,
         fontFamily: "Orbitron_700Bold",
@@ -33,8 +33,8 @@ export const questDetailsStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#1E3760",
         borderRadius: 14,
-        padding: 14,
-        marginBottom: 14,
+        padding: 12,
+        marginBottom: 12,
     },
 
     questTitleRow: {
@@ -94,8 +94,8 @@ export const questDetailsStyles = StyleSheet.create({
 
         minHeight: 112,
 
-        paddingHorizontal: 14,
-        paddingVertical: 16,
+        paddingHorizontal: 12,
+        paddingVertical: 12,
 
         backgroundColor: "#101B32",
 
@@ -104,7 +104,7 @@ export const questDetailsStyles = StyleSheet.create({
 
         borderRadius: 14,
 
-        marginBottom: 14,
+        marginBottom: 12,
     },
 
     completedProgressCard: {
@@ -129,7 +129,7 @@ export const questDetailsStyles = StyleSheet.create({
     timeContent: {
         flex: 1,
 
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
     },
 
     progressTitle: {
@@ -172,7 +172,7 @@ export const questDetailsStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#1E3760",
         borderRadius: 14,
-        padding: 14,
+        padding: 12,
     },
 
     infoRow: {
@@ -221,14 +221,14 @@ export const questDetailsStyles = StyleSheet.create({
     },
 
     completeButton: {
-        height: 46,
+        height: 48,
         borderRadius: 9,
         alignItems: "center",
         justifyContent: "center",
     },
 
     disabledButton: {
-        height: 46,
+        height: 48,
         borderRadius: 9,
         backgroundColor: "#145AE8",
         alignItems: "center",

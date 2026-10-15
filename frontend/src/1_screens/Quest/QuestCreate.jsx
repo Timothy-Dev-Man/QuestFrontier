@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Text, TextInput, Button, Pressable, TouchableOpacity, FlatList, Switch } from "react-native"
+import { View, Text, TextInput, Pressable, FlatList, ScrollView, StyleSheet } from "react-native"
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -80,9 +80,14 @@ const CreateQuest = ({ navigation }) => {
   console.log("deadline: ", deadline.toLocaleString())
 
   return (
-    <View style={{ justifyContent: "flex-start", backgroundColor: '#080F1A', height: '100%', padding: 20, paddingTop: 30, gap: 20 }}>
+    <ScrollView
+      style={screenStyles.scroll}
+      contentContainerStyle={screenStyles.content}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 30, alignSelf: 'center', width: '100%', height: 60, position: 'relative' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, alignSelf: 'center', width: '100%', height: 60, position: 'relative' }}>
         <BackArrow navigation={navigation} />
 
         <View style={{ justifyContent: "flex-start", gap: 5 }}>
@@ -222,11 +227,24 @@ const CreateQuest = ({ navigation }) => {
         />
       </View> */}
 
-      <Pressable style={[styles.button, { backgroundColor: iconColor, marginTop: 'auto' }]} onPress={handleQuestCreation}>
+      <Pressable style={[styles.button, { backgroundColor: iconColor, marginTop: 'auto', width: '100%', height: 48 }]} onPress={handleQuestCreation}>
         <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Orbitron_400Regular' }}>Create Quest</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   )
 }
 
 export default CreateQuest
+
+const screenStyles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+    backgroundColor: "#080F1A",
+  },
+  content: {
+    flexGrow: 1,
+    padding: 16,
+    paddingTop: 24,
+    gap: 16,
+  },
+})

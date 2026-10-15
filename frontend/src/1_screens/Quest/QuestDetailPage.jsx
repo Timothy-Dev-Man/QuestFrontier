@@ -110,7 +110,7 @@ export default function QuestDetailPage({ route, navigation }) {
 
   return (
 
-    <View style={[styles.container, { padding: 20, paddingTop: 30 }]}>
+    <View style={[styles.container, { padding: 16, paddingTop: 24 }]}>
 
       {reward?.reward?.reward && reward?.questId === questId && showReward && (
         <QuestReward
@@ -119,7 +119,7 @@ export default function QuestDetailPage({ route, navigation }) {
       )}
 
       {/* Header */}
-      <View style={[questDetailsStyles.header, { flexDirection: 'row', alignItems: 'center', gap: 30, alignSelf: 'center', width: '100%', height: 60, position: 'relative' }]}>
+      <View style={[questDetailsStyles.header, { flexDirection: 'row', alignItems: 'center', gap: 16, alignSelf: 'center', width: '100%', height: 60, position: 'relative' }]}>
 
         <BackArrow navigation={navigation} passedFunction={getUserQuests} />
 
@@ -181,7 +181,7 @@ export default function QuestDetailPage({ route, navigation }) {
                     borderWidth: 1,
                     borderColor: "#19C7FF",
                     borderRadius: 8,
-                    padding: 10,
+                    padding: 12,
                     minHeight: 80,
                     textAlignVertical: "top",
                   },
@@ -193,8 +193,9 @@ export default function QuestDetailPage({ route, navigation }) {
                   onPress={updateDescription}
                   style={{
                     backgroundColor: "#145AE8",
-                    paddingVertical: 8,
+                    paddingVertical: 12,
                     paddingHorizontal: 16,
+                    minHeight: 44,
                     borderRadius: 8,
                   }}
                 >
@@ -210,8 +211,9 @@ export default function QuestDetailPage({ route, navigation }) {
                   }}
                   style={{
                     backgroundColor: "#434966",
-                    paddingVertical: 8,
+                    paddingVertical: 12,
                     paddingHorizontal: 16,
+                    minHeight: 44,
                     borderRadius: 8,
                   }}
                 >

@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#010C1F",
 
-    paddingHorizontal: 14,
-    paddingTop: 10,
+    paddingHorizontal: 16,
+    paddingTop: 16,
 
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
   },
 
   topBar: {
-    height: 55,
+    height: 48,
 
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
 
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
 
     marginBottom: 12,
   },
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   currency: {
     color: "#E7EDF7",
 
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "600",
   },
 

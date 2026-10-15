@@ -147,7 +147,7 @@ function QuestReward({ onClose }) {
           },
         ]}
       >
-        <View style={{ margin: 20, marginTop: 45 }}>
+        <View style={{ marginHorizontal: 16, marginTop: 24, marginBottom: 16 }}>
           <HeaderTitle title="REWARD ACQUIRED" subHeader="YOUR EFFORTS PAY OFF" color="#38E6A3" />
         </View>
         <Animated.View

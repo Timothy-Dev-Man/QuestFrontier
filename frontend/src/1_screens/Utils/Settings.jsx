@@ -43,8 +43,8 @@ const Settings = () => {
         style={[globalStyles.innerContainer, {
           borderBottomLeftRadius: 24,
           borderBottomRightRadius: 24,
-          padding: 20,
-          paddingTop: 70,
+          padding: 16,
+          paddingTop: 56,
           overflow: 'hidden'
         },]}
         resizeMode="cover"
@@ -55,9 +55,9 @@ const Settings = () => {
         <View
           style={{
             position: "absolute",
-            top: 20,
-            left: 20,
-            right: 20,
+            top: 12,
+            left: 16,
+            right: 16,
             flexDirection: "row",
             alignItems: "center",
           }}
@@ -159,7 +159,7 @@ const Settings = () => {
           onPress={handleLogout}
           style={{
             backgroundColor: "#430813",
-            paddingVertical: 14,
+            paddingVertical: 12,
             borderRadius: 10,
             alignItems: "center",
             justifyContent: "center",
@@ -180,7 +180,7 @@ const Settings = () => {
           <Text
             style={{
               color: "#FFFFFF",
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: "700",
             }}
           >

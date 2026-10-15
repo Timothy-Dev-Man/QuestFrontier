@@ -89,7 +89,7 @@ const QuestCard = ({
         {
           flexDirection: "row",
           alignItems: "center",
-          gap: 12,
+          gap: 8,
 
           borderRightWidth: 1,
         },
@@ -159,7 +159,7 @@ const QuestCard = ({
             <Text
               style={{
                 color: "#A8B2C1",
-                fontSize: 10,
+                fontSize: 11,
               }}
             >
               {type}
@@ -190,7 +190,7 @@ const QuestCard = ({
             <Text
               style={{
                 color: "#A8B2C1",
-                fontSize: 10,
+                fontSize: 11,
               }}
             >
               {difficulty}
@@ -233,7 +233,7 @@ const QuestCard = ({
           <Text
             style={{
               color: statusIconColor,
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: "600",
               textTransform: "capitalize",
             }}
@@ -256,7 +256,7 @@ const QuestCard = ({
               color="#40D8F7"
             />
 
-            <Text style={{ color: "#40D8F7", fontSize: 14 }}>
+            <Text style={{ color: "#40D8F7", fontSize: 13 }}>
               {formattedTime}
             </Text>
           </View>

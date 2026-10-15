@@ -66,7 +66,7 @@ const Profile = () => {
             <View style={styles.content}>
 
                 {/* HEADER */}
-                <View style={{ marginBottom: 28 }}>
+                <View style={{ marginBottom: 20 }}>
                     <HeaderTitle title="PROFILE" />
                 </View>
                 {/* PROFILE CARD */}

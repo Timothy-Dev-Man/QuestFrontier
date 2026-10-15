@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
     label: {
         color: "#FFFFFF",
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: "600",
     },
     input: {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         borderColor: "#1A539F",
         borderRadius: 8,
         padding: 12,
-        fontSize: 15,
+        fontSize: 14,
     },
     forgotButton: {
         alignSelf: "flex-end",
@@ -96,7 +96,9 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#1468D7",
-        padding: 13,
+        minHeight: 48,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
         borderRadius: 8,
         alignItems: "center",
         marginTop: 5,

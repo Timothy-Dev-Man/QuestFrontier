@@ -12,7 +12,7 @@ function QuestList({ limit = false, quests = [], showSeeAll = false, navigation,
                 borderRadius: 20,
                 borderWidth: 1,
                 borderColor: showSeeAll ? '#172D4D' : null,
-                padding: 14,
+                padding: 12,
             }}>
 
             {filters ? (filters.map((Component, index) => {
@@ -49,10 +49,10 @@ function QuestList({ limit = false, quests = [], showSeeAll = false, navigation,
                 <Pressable
                     style={[
                         {
-                            height: 46,
+                            height: 48,
                             width: '100%',
                             alignSelf: 'center',
-                            marginTop: 10,
+                            marginTop: 8,
                             borderRadius: 9,
                             alignItems: "center",
                             justifyContent: "center",
@@ -67,7 +67,7 @@ function QuestList({ limit = false, quests = [], showSeeAll = false, navigation,
                     <Text
                         style={[
                             questDetailsStyles.completeButtonText,
-                            { fontSize: 18, color: '#4C73FF' },
+                            { fontSize: 16, color: '#4C73FF' },
                         ]}
                     >
                         View all

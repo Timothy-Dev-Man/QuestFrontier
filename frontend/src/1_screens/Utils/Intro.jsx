@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#020A18",
-        padding: 8,
+        padding: 12,
     },
 
     card: {
@@ -173,9 +173,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#163968",
         borderRadius: 24,
-        paddingHorizontal: 22,
-        paddingTop: 25,
-        paddingBottom: 20,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 16,
         backgroundColor: "#041124",
     },
 
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         gap: 9,
-        marginVertical: 28,
+        marginVertical: 20,
     },
 
     dot: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
 
     skipButton: {
         flex: 1,
-        height: 52,
+        height: 48,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#1D3F70",
@@ -263,13 +263,13 @@ const styles = StyleSheet.create({
 
     skipText: {
         color: "#9EB4D1",
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: "500",
     },
 
     nextButton: {
         flex: 1.5,
-        height: 52,
+        height: 48,
         borderRadius: 10,
         backgroundColor: "#0867E8",
         justifyContent: "center",
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
 
     nextText: {
         color: "#FFFFFF",
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: "600",
     },
 

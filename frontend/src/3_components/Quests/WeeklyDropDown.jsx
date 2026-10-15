@@ -49,7 +49,7 @@ function WeeklyDropDown({
 
                         <Text
                             style={{
-                                fontSize: 15,
+                                fontSize: 14,
                                 color: '#e9e6e6',
                                 fontWeight: 500,
                                 fontFamily: "Orbitron_400Regular"
