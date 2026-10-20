@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { View, Text, Pressable } from "react-native"
 import { styles, text } from "../../2_services/styles.js"
-
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const PenaltyStatus = ({ penalty, setPenalty }) => {
     const [timeRemaining, setTimeRemaining] = useState(0)
+    const [iconSize, setIconSize] = useState(0);
 
     useEffect(() => {
         if (!penalty?.penaltyDeadline) {
@@ -78,13 +77,17 @@ const PenaltyStatus = ({ penalty, setPenalty }) => {
                     borderWidth: 1,
                     borderStyle: 'solid',
                 }}
+                onLayout={({ nativeEvent }) => {
+                    const { width, height } = nativeEvent.layout;
+                    setIconSize(Math.min(width, height) * 0.8);
+                }}
             >
                 {!penalty?.active ? (
 
                     <>
                         <MaterialCommunityIcons
                             name="shield-check-outline"
-                            size={62}
+                            size={iconSize > 0 ? iconSize : 62}
                             color={color}
                         />
 
@@ -104,7 +107,7 @@ const PenaltyStatus = ({ penalty, setPenalty }) => {
                     <>
                         <MaterialCommunityIcons
                             name="shield-alert-outline"
-                            size={62}
+                            size={iconSize > 0 ? iconSize : 62}
                             color={color}
                         />
 
