@@ -145,7 +145,7 @@ function DropDown({
   );
   return (
     <>
-      {questType === "One-time" && (
+      {questType === "Once" && (
         <OneTimeDropDown
           /* DATE */
           selectedDate={selectedDate}
