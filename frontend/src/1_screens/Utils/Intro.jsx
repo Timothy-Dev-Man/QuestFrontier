@@ -64,7 +64,7 @@ const Intro = ({ navigation }) => {
 
         if (success) {
             console.log("Setup finished")
-            navigation.navigate("Home")
+            navigation.navigate("BlockedApps")
         }
     }
 

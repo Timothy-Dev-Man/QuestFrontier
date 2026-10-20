@@ -10,19 +10,20 @@ import {
 } from "react-native";
 
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native"
 
-import {
-    loadSavedBlockedApps,
-    setBlockedApps,
-} from "../../2_services/handleOverlay.js";
+import { loadSavedBlockedApps, setBlockedApps, } from "../../2_services/handleOverlay.js";
 import { fetchEntertainmentApps } from "../../Providers/AppModule.js";
 
+import BackArrow from "../../3_components/Utils/BackArrow.jsx"
 import { Ionicons } from "@expo/vector-icons";
 
 const BlockedApps = () => {
     const [apps, setApps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedApps, setSelectedApps] = useState([]);
+
+    const navigation = useNavigation()
 
     useEffect(() => {
         let cancelled = false;
@@ -74,10 +75,7 @@ const BlockedApps = () => {
         }
 
         await setBlockedApps(selectedApps);
-
-        // Put whatever should happen next here.
-        // Example:
-        // navigation.navigate("NextScreen");
+        navigation.navigate("Home");
     };
 
     return (
@@ -93,25 +91,12 @@ const BlockedApps = () => {
 
             <View style={styles.card}>
                 <View style={styles.header}>
-                    <Pressable style={styles.headerButton}>
-                        <Ionicons
-                            name="arrow-back"
-                            size={22}
-                            color="#E5ECF7"
-                        />
-                    </Pressable>
+                    <BackArrow navigation={navigation} />
 
                     <Text style={styles.headerTitle}>
                         Penalty Rules
                     </Text>
 
-                    <Pressable style={styles.headerButton}>
-                        <Ionicons
-                            name="close"
-                            size={20}
-                            color="#8D9BB0"
-                        />
-                    </Pressable>
                 </View>
 
                 <View style={styles.content}>
@@ -198,6 +183,8 @@ const BlockedApps = () => {
                         })}
                     </ScrollView>
 
+                    <View style={{ flex: 1 }} />
+
                     <Pressable
                         onPress={handleContinue}
                         disabled={selectedApps.length < 2}
@@ -241,6 +228,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#080F1A",
         paddingHorizontal: 16,
         paddingTop: 12,
+        paddingBottom: 40
     },
 
     pageTitle: {
@@ -259,6 +247,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#0D182A",
         overflow: "hidden",
         paddingBottom: 12,
+        flex: 1
     },
 
     header: {
@@ -267,7 +256,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#172941",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         paddingHorizontal: 14,
     },
 
@@ -279,18 +268,25 @@ const styles = StyleSheet.create({
     },
 
     headerTitle: {
-        color: "#E7EDF7",
-        fontSize: 16,
+        position: "absolute",
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        fontSize: 18,
         fontWeight: "600",
+        color: "#FFFFFF",
     },
 
     content: {
+        flex: 1,
         paddingHorizontal: 16,
         paddingTop: 16,
     },
 
     list: {
-        maxHeight: 420,
+        flex: 1,
+        maxHeight: 620,
+        minHeight: 420,
     },
 
     status: {
