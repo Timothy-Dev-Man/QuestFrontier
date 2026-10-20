@@ -110,7 +110,7 @@ export default function QuestDetailPage({ route, navigation }) {
 
   return (
 
-    <View style={[styles.container, { padding: 16, paddingTop: 24 }]}>
+    <View style={[styles.container, { padding: 20, paddingTop: 24, paddingBottom: 40 }]}>
 
       {reward?.reward?.reward && reward?.questId === questId && showReward && (
         <QuestReward
@@ -276,15 +276,15 @@ export default function QuestDetailPage({ route, navigation }) {
               { color: "#EF4444" },
             ]}
           >
-            Time Expired
+            Expired
           </Text> : <Text style={questDetailsStyles.progressTitle}>
-            {!waitingForStart ? "TIME LEFT" : "Starts in"}
+            {!waitingForStart ? "Time left" : "Starts in"}
           </Text>}
 
           {quest?.is_completed ? (
             <Text
               style={[
-                questDetailsStyles.timeValue,
+                questDetailsStyles.progressTitle,
                 { color: "#22C55E" },
               ]}
             >
