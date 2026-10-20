@@ -53,7 +53,7 @@ export async function fetchCreateQuests(token, credentials) {
             questTitle: credentials.questTitle.trim(),
             time: credentials.questTime,
             deadline: credentials.deadline,
-            type: credentials.questType,
+            type: credentials.type,
             questDescription: credentials.questDescription.trim(),
             difficulty: credentials.difficulty.name,
           },
