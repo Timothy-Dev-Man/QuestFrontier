@@ -11,13 +11,13 @@ import { useEffect, useState } from "react"
 import {
   styles,
   COLORS,
-} from "../2_services/styles"
+} from "../2_services/styles.js"
 
 import {
   useAuth,
   useUser,
-} from "../2_services/context"
-import BackArrow from "../3_components/Utils/BackArrow.jsx"
+} from "../2_services/context.js"
+import BackArrow from "./Utils/BackArrow.jsx"
 
 import { useNavigation } from "@react-navigation/native"
 
@@ -112,7 +112,7 @@ export default function ViewItem({ route }) {
 
   return (
 
-    <View style={[styles.container, { flex: 1, alignItems: "center" }]}>
+    <View style={[styles.container, { flex: 1, alignItems: "center", paddingTop: 40, paddingBottom: 40 }]}>
 
       <View style={user.detailCard}>
 
