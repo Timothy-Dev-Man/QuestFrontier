@@ -1,12 +1,15 @@
 // auth.routes.js
 import express from "express"
 import { authenticate } from "../middleware/auth.middleware.js"
-import { getAllPenaltiesController, getListOfApps, getPenaltyForQuestController } from "../controllers/3_penalty.controller.js"
+import { getAllPenaltiesController, setListOfApps, getListOfApps, getPenaltyForQuestController } from "../controllers/3_penalty.controller.js"
 
 const router = express.Router()
 
-// GET list of apps from the front-end
-router.post("/list", authenticate, getListOfApps)
+// POST list of apps
+router.post("/list", authenticate, setListOfApps)
+
+// GET list of apps
+router.get("/list", authenticate, getListOfApps)
 
 router.get("/active", authenticate, getAllPenaltiesController)
 

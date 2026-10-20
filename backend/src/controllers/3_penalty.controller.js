@@ -1,4 +1,4 @@
-import { addListToRestricted, getPenaltyByQuest, getAllActivePenalties } from '../services/3_penalty.service.js';
+import { addListToRestricted, getPenaltyByQuest, getAllActivePenalties, getRestrictedApps } from '../services/3_penalty.service.js';
 
 // Get the active penalty
 export async function getAllPenaltiesController(req, res) {
@@ -38,15 +38,34 @@ export async function getPenaltyForQuestController(req, res) {
   }
 }
 
+// POST the list of restricted app from front-end
+export async function setListOfApps(req, res) {
+  try {
+    const userId = req.user.id
+    const { list } = req.body
+    if (list.length < 2) {
+
+      throw new Error("Choose 2 or more apps to block.");
+
+    }
+
+    const setList = await addListToRestricted(userId, list)
+    res.status(200).json(setList)
+  } catch (err) {
+    console.error("setListOfApps error:", err)
+    res.status(500).json(err)
+  }
+}
+
 // Get the list of restricted app from front-end
 export async function getListOfApps(req, res) {
   try {
     const userId = req.user.id
-    const { list } = req.body
-    const getList = await addListToRestricted(userId, list)
+    const getList = await getRestrictedApps(userId)
     res.status(200).json(getList)
   } catch (err) {
-    console.error("getListOfApps error:", err)
+    console.error("setListOfApps error:", err)
     res.status(500).json(err)
   }
-}  
+}
+

@@ -31,13 +31,32 @@ export async function getPenaltyByQuest(questId, userId) {
 // Adds the list to restricted_apps in penalties.sql
 export async function addListToRestricted(userId, ListOfApps) {
   try {
-    const sql = `UPDATE penalties 
-    SET restricted_apps = COALESCE(restricted_apps, '{}') || $1
-    WHERE active = true AND user_id = $2
-    RETURNING active, restricted_apps, started_at, ends_at;`
-    const results = await pool.query(sql, [ListOfApps, userId])
-    return results.rows[0]
+    const sql = `
+      INSERT INTO blocked_apps (user_id, app_list)
+      VALUES ($1, $2)
+      ON CONFLICT (user_id)
+      DO UPDATE SET app_list = EXCLUDED.app_list
+      RETURNING app_list;
+    `;
+
+    const results = await pool.query(sql, [userId, ListOfApps]);
+    return results.rows[0];
   } catch (err) {
-    throw err
+    throw err;
+  }
+}
+
+export async function getRestrictedApps(userId) {
+  try {
+    const sql = `
+      SELECT app_list
+      FROM blocked_apps
+      WHERE user_id = $1;
+    `;
+
+    const results = await pool.query(sql, [userId]);
+    return results.rows[0]?.app_list ?? [];
+  } catch (err) {
+    throw err;
   }
 }
