@@ -49,21 +49,64 @@ const applyBlockedApps = (packages) => {
 
 // Save the user's chosen apps so they survive app restarts
 export const setBlockedApps = async (packages) => {
-  applyBlockedApps(packages)
-  try {
-    await AsyncStorage.setItem(STORAGE_KEYS.BLOCKED_APPS, JSON.stringify(blockedApps))
-  } catch (error) {
-    console.warn("[OVERLAY] Failed to save blocked apps:", error)
+  const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN)
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/penalties/list`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        list: packages,
+      }),
+    },
+  )
+  if (!response.ok) {
+    throw new Error(`[OVERLAY] Failed to save blocked apps (${response.status})`)
   }
+
+  return loadSavedBlockedApps()
 }
 
 export const loadSavedBlockedApps = async () => {
+  const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN)
+
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_BACKEND_URL}/penalties/list`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    )
+    if (!response.ok) {
+      throw new Error(`Request failed (${response.status})`)
+    }
+
+    const data = await response.json()
+    const packages = Array.isArray(data)
+      ? data
+      : data?.list || data?.restricted_apps || data?.restrictedApps
+    console.log("pack: ", packages)
+    if (!Array.isArray(packages)) {
+      throw new Error("Unexpected blocked-app response")
+    }
+
+    applyBlockedApps(packages)
+    await AsyncStorage.setItem(STORAGE_KEYS.BLOCKED_APPS, JSON.stringify(blockedApps))
+    return blockedApps
+  } catch (error) {
+    console.warn("[OVERLAY] Failed to fetch blocked apps; using saved list:", error)
+  }
+
   try {
     const saved = await AsyncStorage.getItem(STORAGE_KEYS.BLOCKED_APPS)
     const parsed = saved ? JSON.parse(saved) : []
-    return Array.isArray(parsed) ? parsed : []
+    const packages = Array.isArray(parsed) ? parsed : []
+    applyBlockedApps(packages)
+    return blockedApps
   } catch (error) {
     console.warn("[OVERLAY] Failed to load blocked apps:", error)
+    applyBlockedApps([])
     return []
   }
 }
@@ -113,20 +156,7 @@ export const startAppWatcherService = async () => {
     requestOverlayPermission()
   }
 
-  // Prefer the user's saved selection; only auto-detect when nothing was ever chosen
-  if (blockedApps.length === 0) {
-    blockedApps = await loadSavedBlockedApps()
-  }
-  if (blockedApps.length === 0 && AppWatcherServiceModule.getEntertainmentApps) {
-    try {
-      const apps = await AppWatcherServiceModule.getEntertainmentApps()
-      applyBlockedApps((apps || []).map((app) => app?.packageName))
-    } catch (error) {
-      console.warn("[OVERLAY] Failed to auto-load entertainment apps:", error)
-    }
-  } else {
-    applyBlockedApps(blockedApps)
-  }
+  await loadSavedBlockedApps()
 
   await syncPenaltyState()
 
