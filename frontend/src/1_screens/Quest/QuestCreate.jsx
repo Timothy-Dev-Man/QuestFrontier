@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Text, TextInput, Pressable, FlatList, ScrollView, StyleSheet } from "react-native"
+import { View, Text, TextInput, Pressable, ScrollView, StyleSheet } from "react-native"
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useQuests, useError, useAuth } from "../../2_services/context.js"
 
 import DropDown from "../../3_components/Quests/DropDown.jsx"
-import ExpPill from "../../3_components/Utils/ExpPill.jsx"
+import Pill from "../../3_components/Utils/Pill.jsx"
 import QuestTypeIcon from "../../3_components/Quests/QuestTypeIcon.jsx"
 import BackArrow from "../../3_components/Utils/BackArrow.jsx"
 
@@ -45,7 +45,9 @@ const CreateQuest = ({ navigation }) => {
   async function handleQuestCreation() {
     if (questTitle && questTime && deadline && questType && difficulty) {
       try {
-        await questCreation({ questTitle, questTime, deadline, questType, questDescription, difficulty }, token)
+        const type = questType === "Once" ? "One-time" : questType;
+
+        await questCreation({ questTitle, questTime, deadline, type, questDescription, difficulty }, token)
         navigation.navigate("Home")
       } catch (err) {
         console.error(err)
@@ -74,10 +76,6 @@ const CreateQuest = ({ navigation }) => {
     iconColor = '#58B341'
     dropDownDescription = "When should this quest happen?"
   }
-
-
-  console.log("questTime: ", questTime.toLocaleString())
-  console.log("deadline: ", deadline.toLocaleString())
 
   return (
     <ScrollView
@@ -138,7 +136,7 @@ const CreateQuest = ({ navigation }) => {
                 Icon={MaterialCommunityIcons}
                 name="clock-outline"
                 Title="Once"
-                onPress={() => setQuestType("One-time")}
+                onPress={() => setQuestType("Once")}
                 selected={questType}
                 color='#58B341'
               />
@@ -158,7 +156,7 @@ const CreateQuest = ({ navigation }) => {
           />
 
           <View style={{ gap: 10, backgroundColor: '#121628', padding: 5, borderRadius: 10 }}>
-            <Text style={questStyles.questTpyeText}>Descriptoin (Optional)</Text>
+            <Text style={questStyles.questTpyeText}>Description (Optional)</Text>
             <TextInput
               style={[questStyles.dataInput, { minHeight: 80, maxHeight: 120 }]}
               placeholder="Add more details..."
@@ -174,7 +172,8 @@ const CreateQuest = ({ navigation }) => {
           <View style={[questStyles.timePickerWrapper, { gap: 5 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
               <Text style={questStyles.questTpyeText}>Difficulty -</Text>
-              <ExpPill number={difficulty.expBoost + 100} />
+              <Pill symbol="+" number={difficulty.expBoost + 100} text="Exp" color="#7D56A8" backgroundColor="#1F184C" />
+              <Pill symbol="-" number={difficulty.minus} text="Mins" color="#a53e3e" backgroundColor="#4c1818" />
             </View>
             <Pressable
               style={questStyles.timeInput}
@@ -191,28 +190,38 @@ const CreateQuest = ({ navigation }) => {
               />
             </Pressable>
 
+
             {difficultyOpen && (
-              <View style={questStyles.dropdown}>
-                <FlatList
-                  data={difficultyList}
-                  keyExtractor={(item) => item.name}
-                  nestedScrollEnabled
-                  renderItem={({ item }) => (
-                    <Pressable
-                      style={questStyles.timeOption}
-                      onPress={() => {
-                        setDifficulty(item);
-                        setDifficultyOpen(false);
-                      }}
-                    >
-                      <Text style={questStyles.inputText}>
-                        {<MaterialCommunityIcons name="lightning-bolt-outline" size={16} color={item.color} />}{" "}
-                        <Text style={{ fontFamily: "Orbitron_400Regular", fontSize: 12, }}>{item.name}</Text> + {item.expBoost} XP -{" "}<Text style={{ color: '#D32F2F' }}>{item.minus}</Text>{" "}mins</Text>
-                    </Pressable>
-                  )}
-                />
-              </View>
+              <ScrollView style={questStyles.dropdown}>
+                {difficultyList.map((item) => (
+                  <Pressable
+                    key={item.name}
+                    style={questStyles.timeOption}
+                    onPress={() => {
+                      setDifficulty(item);
+                      setDifficultyOpen(false);
+                    }}
+                  >
+                    <Text style={questStyles.inputText}>
+                      <MaterialCommunityIcons
+                        name="lightning-bolt-outline"
+                        size={16}
+                        color={item.color}
+                      />{" "}
+                      <Text
+                        style={{
+                          fontFamily: "Orbitron_400Regular",
+                          fontSize: 12,
+                        }}
+                      >
+                        {item.name}
+                      </Text>
+                    </Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
             )}
+
           </View>
         </>
       )}
@@ -227,7 +236,7 @@ const CreateQuest = ({ navigation }) => {
         />
       </View> */}
 
-      <Pressable style={[styles.button, { backgroundColor: iconColor, marginTop: 'auto', width: '100%', height: 48 }]} onPress={handleQuestCreation}>
+      <Pressable style={[styles.button, { backgroundColor: iconColor, marginTop: 50, width: '100%', height: 48 }]} onPress={handleQuestCreation}>
         <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Orbitron_400Regular' }}>Create Quest</Text>
       </Pressable>
     </ScrollView>
