@@ -45,7 +45,8 @@ const Settings = () => {
           borderBottomRightRadius: 24,
           padding: 16,
           paddingTop: 56,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          marginBottom: 20
         },]}
         resizeMode="cover"
       >
