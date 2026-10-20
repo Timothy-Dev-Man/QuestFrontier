@@ -62,6 +62,7 @@ export const questStyles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 8,
         padding: 12,
+        minHeight: 60,
         width: '100%',
         gap: 8
     },
@@ -124,7 +125,7 @@ export const questStyles = StyleSheet.create({
 
     dropdown: {
         position: "absolute",
-        top: 48,
+        top: 70,
         left: 0,
         right: 0,
 
@@ -133,16 +134,17 @@ export const questStyles = StyleSheet.create({
         borderColor: "#2E78FF",
         borderRadius: 8,
 
-        maxHeight: 280,
+        maxHeight: 400,
 
         zIndex: 1000,
         elevation: 10,
 
         overflow: "hidden",
+        gap: 5
     },
 
     timeOption: {
-        height: 44,
+        height: 30,
         paddingHorizontal: 12,
         justifyContent: 'center',
     },

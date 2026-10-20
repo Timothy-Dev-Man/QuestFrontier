@@ -94,7 +94,7 @@ export const questDetailsStyles = StyleSheet.create({
 
         minHeight: 112,
 
-        paddingHorizontal: 12,
+        paddingHorizontal: 0,
         paddingVertical: 12,
 
         backgroundColor: "#101B32",
@@ -128,7 +128,7 @@ export const questDetailsStyles = StyleSheet.create({
 
     timeContent: {
         flex: 1,
-
+        alignItems: 'center',
         paddingHorizontal: 12,
     },
 
@@ -143,7 +143,7 @@ export const questDetailsStyles = StyleSheet.create({
 
     timeValue: {
         color: "#19C7FF",
-        fontSize: 16,
+        fontSize: 10,
         fontWeight: "700",
     },
 

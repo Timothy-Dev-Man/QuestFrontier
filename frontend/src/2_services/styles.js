@@ -173,7 +173,7 @@ export const styles = StyleSheet.create({
     textShadowRadius: 12,
   },
   card: {
-    padding: 10,
+    padding: 5,
     borderRadius: 10,
     backgroundColor: '#031936',
     borderWidth: 1,
