@@ -4,7 +4,7 @@ import {
   View,
   Text,
   Pressable,
-  FlatList
+  ScrollView,
 } from "react-native";
 
 import { questStyles } from "../../Styles/questStyles.js";
@@ -149,9 +149,9 @@ function Once({
 
 
         {calendarOpen && (
-          <View style={questStyles.dropdown}>
-
+          <ScrollView style={[questStyles.dropdown, { paddingBottom: 15 }]}>
             <Calendar
+              style={{ height: 300 }}
               theme={{
                 backgroundColor: "#ffffff",
                 calendarBackground: "#171D35",
@@ -221,7 +221,7 @@ function Once({
               }}
             />
 
-          </View>
+          </ScrollView>
         )}
 
       </View>
@@ -264,47 +264,31 @@ function Once({
 
           {open && (
             <View style={questStyles.dropdown}>
-
-              <FlatList
-                data={times}
-                keyExtractor={(item) =>
-                  `${item.hour}:${item.minute}`
-                }
+              <ScrollView
                 nestedScrollEnabled
-                initialScrollIndex={currentIndex}
-                getItemLayout={(data, index) => ({
-                  length: 40,
-                  offset: 40 * index,
-                  index
-                })}
-                renderItem={({ item }) => (
-
+                style={{ maxHeight: 200 }}
+              >
+                {times.map((item) => (
                   <Pressable
+                    key={`${item.hour}:${item.minute}`}
                     style={questStyles.timeOption}
                     onPress={() => {
-
                       updateTime(
                         item.hour,
                         item.minute,
                         active
                       );
-
                       setOpen(false);
-
                     }}
                   >
-
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
                       {active}
                     </Text>
-
                   </Pressable>
-
-                )}
-              />
-
+                ))}
+              </ScrollView>
             </View>
           )}
 
@@ -345,27 +329,18 @@ function Once({
           </Pressable>
 
 
+
           {openDeadline && (
             <View style={questStyles.dropdown}>
-
-              <FlatList
-                data={deadlineTimes}
-                keyExtractor={(item) =>
-                  `${item.hour}:${item.minute}`
-                }
+              <ScrollView
                 nestedScrollEnabled
-                initialScrollIndex={deadlineIndex}
-                getItemLayout={(data, index) => ({
-                  length: 40,
-                  offset: 40 * index,
-                  index
-                })}
-                renderItem={({ item }) => (
-
+                style={{ maxHeight: 200 }}
+              >
+                {deadlineTimes.map((item) => (
                   <Pressable
+                    key={`${item.hour}:${item.minute}`}
                     style={questStyles.timeOption}
                     onPress={() => {
-
                       updateDeadline(
                         item.hour,
                         item.minute,
@@ -373,23 +348,19 @@ function Once({
                       );
 
                       setOpenDeadline(false);
-
                     }}
                   >
-
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
                       {deadlineActive}
                     </Text>
-
                   </Pressable>
-
-                )}
-              />
-
+                ))}
+              </ScrollView>
             </View>
           )}
+
 
         </View>
 

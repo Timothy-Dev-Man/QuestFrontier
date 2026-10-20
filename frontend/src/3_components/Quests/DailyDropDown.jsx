@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, Pressable, FlatList } from "react-native";
+import { View, Text, Pressable, ScrollView } from "react-native";
 
 import { questStyles } from "../../Styles/questStyles.js";
 
@@ -102,28 +102,17 @@ function Daily({
 
           </Pressable>
 
-
           {open && (
             <View style={questStyles.dropdown}>
-
-              <FlatList
-                data={times}
-                keyExtractor={(item) =>
-                  `${item.hour}:${item.minute}`
-                }
+              <ScrollView
                 nestedScrollEnabled
-                initialScrollIndex={currentIndex}
-                getItemLayout={(data, index) => ({
-                  length: 40,
-                  offset: 40 * index,
-                  index
-                })}
-                renderItem={({ item }) => (
-
+                style={{ maxHeight: 200 }}
+              >
+                {times.map((item) => (
                   <Pressable
+                    key={`${item.hour}:${item.minute}`}
                     style={questStyles.timeOption}
                     onPress={() => {
-
                       updateTime(
                         item.hour,
                         item.minute,
@@ -131,23 +120,19 @@ function Daily({
                       );
 
                       setOpen(false);
-
                     }}
                   >
-
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
                       {active}
                     </Text>
-
                   </Pressable>
-
-                )}
-              />
-
+                ))}
+              </ScrollView>
             </View>
           )}
+
 
         </View>
 
