@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS quest_rewards CASCADE;
-
-CREATE TABLE quest_rewards (
+CREATE TABLE IF NOT EXISTS quest_rewards (
     id SERIAL PRIMARY KEY,
 
     quest_id INTEGER NOT NULL
