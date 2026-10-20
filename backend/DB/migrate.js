@@ -23,6 +23,7 @@ const migrations = [
   "Rewards/stat_rewards.sql",
   "Rewards/streaks.sql",
   "Penalties/penalties.sql",
+  "Penalties/blocked_apps.sql",
 ]
 
 const __filename = fileURLToPath(import.meta.url)

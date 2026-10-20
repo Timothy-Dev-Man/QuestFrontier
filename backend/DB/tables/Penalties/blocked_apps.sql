@@ -1,9 +1,5 @@
-DROP TABLE IF EXISTS blocked_apps CASCADE;
-
-CREATE TABLE blocked_apps (
+CREATE TABLE IF NOT EXISTS blocked_apps (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    app_package TEXT NOT NULL
-
-    UNIQUE (user_id, app_package)
+    user_id INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    app_list TEXT[] NOT NULL DEFAULT '{}'
 );
