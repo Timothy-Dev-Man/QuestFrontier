@@ -75,12 +75,33 @@ export function AuthProvider({ children }) {
 
   // 2c. Function: logout
   const logout = async () => {
-    // clear token & user
-    // await fetchLogout(token)
-    await removeJWTToken()
-    await removeUser()
-    DevSettings.reload()
-  }
+    const token = await getJWTToken().catch(() => null);
+
+    try {
+      // Invalidate the token on the backend.
+      if (token) {
+        await fetchLogout(token);
+      }
+    } catch (error) {
+      console.warn("Server logout failed:", error);
+    } finally {
+      // Clear locally stored session data.
+      const results = await Promise.allSettled([
+        removeJWTToken(),
+        removeUser(),
+      ]);
+
+      results.forEach((result) => {
+        if (result.status === "rejected") {
+          console.error("Failed to clear session storage:", result.reason);
+        }
+      });
+
+      // Clear your in-memory authentication state too.
+      setActiveToken(null);
+      setUser(null);
+    }
+  };
 
   // 2d. Function: restoreSession
   const restoreSession = async () => {
