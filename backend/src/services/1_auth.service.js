@@ -68,7 +68,6 @@ export function verifyJWT(token) {
     const verifiedToken = jwt.verify(token, process.env.JWT_SECRET)
     return verifiedToken
   } catch (err) {
-    console.warn("verifyJWT failed")
     throw new Error("Invalid or expired token")
   }
 }
@@ -96,7 +95,7 @@ export async function createUser(name, email, password) {
     }
 
     await client.query("COMMIT");
-    console.info(`User registered: userId=${user.id}`)
+    console.info("User account created successfully")
 
     return user
   } catch (err) {

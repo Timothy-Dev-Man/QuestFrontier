@@ -32,7 +32,7 @@ const __dirname = path.dirname(__filename)
 
 async function startServer() {
 
-  boss.on('error', error => console.error(error));
+  boss.on('error', () => console.error("Background job service failed"));
 
   await boss.start();
 
@@ -40,16 +40,16 @@ async function startServer() {
   await boss.createQueue("quest-completed");
   await boss.createQueue("recurring-quest");
 
-  console.log('pg-boss has started successfully');
+  console.info('Background job service started successfully');
 
   startDeadlineWorker()
-  console.log('startDeadlineWorker started successfully');
+  console.info('Deadline worker started successfully');
 
   startRewardWorker()
-  console.log('startRewardWorker started successfully');
+  console.info('Reward worker started successfully');
 
   startRecurringQuestWorker();
-  console.log("startRecurringQuestWorker started successfully");
+  console.info("Recurring quest worker started successfully");
 
   app.use(express.json())
   app.use(getServerLoggerMiddleware())
@@ -73,9 +73,6 @@ async function startServer() {
   app.use("/shop", shopRoutes)
   // SSE endpoint
   app.get("/events", authenticate, (req, res) => {
-    console.log("SSE CONNECTED:", req.user?.id);
-
-
     res.setHeader("Content-Type", "text/event-stream")
     res.setHeader("Cache-Control", "no-cache")
     res.setHeader("Connection", "keep-alive")
@@ -86,14 +83,13 @@ async function startServer() {
 
 
   app.listen(PORT, async () => {
-    console.log(`Server running on port ${PORT}`)
+    console.info(`Server started on port ${PORT}`)
     try {
       const client = await pool.connect()
-      console.log("Database connection successful ✅")
-      console.log("Database URL: " + process.env.DATABASE_URL)
+      console.info("Database connection successful")
       client.release()
     } catch (err) {
-      console.error("Database connection error:", err)
+      console.error("Database connection failed")
     }
   })
 }

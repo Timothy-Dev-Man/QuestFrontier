@@ -8,8 +8,8 @@ export async function register(req, res) {
     const user = await registerUser(name, email, password)
     res.status(200).json(user)
   } catch (err) {
-    console.error("register controller error:", err)
-    res.status(500).json(err.message)
+    console.error("User registration failed")
+    res.status(500).json("User registration failed")
   }
 }
 
@@ -18,9 +18,11 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body
     const user = await loginUser(email, password)
+    console.info("User login succeeded")
     res.status(200).json(user)
   } catch (err) {
-    res.status(401).json({ error: err.message })
+    console.warn("User login failed")
+    res.status(401).json({ error: "Invalid email or password" })
   }
 }
 

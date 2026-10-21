@@ -41,10 +41,9 @@ async function importBadges() {
         [name, imagePath]
       )
 
-      console.log("Imported:", name)
     }
   } catch (err) {
-    console.error("Failed to import badges:", err)
+    console.error("Badge import failed")
   } finally {
     client.release()
     await pool.end()

@@ -5,7 +5,6 @@ export function startRecurringQuestWorker() {
     // Process jobs as they are triggered by the pg-boss scheduler
     boss.work("recurring-quest", async (jobs) => {
         for (const job of jobs) {
-            console.log("Processing triggered recurring quest:", job.id);
             try {
                 const {
                     userId,
@@ -17,9 +16,6 @@ export function startRecurringQuestWorker() {
                     start,
                     deadline,
                 } = job.data;
-
-                console.log("(startRecurringQuestWorker) Creating quest instance for ID:", questId);
-
 
                 const intervalMs =
                     type === "Daily"
@@ -36,7 +32,7 @@ export function startRecurringQuestWorker() {
                 const originalStart = new Date(start).getTime();
 
                 if (scheduledAt < originalStart) {
-                    console.log("Skipping recurring quest before its start time:", questId);
+                    console.info("Recurring quest skipped: before start time")
                     continue;
                 }
 
@@ -64,9 +60,10 @@ export function startRecurringQuestWorker() {
                     false,
                     true
                 );
+                console.info("Recurring quest instance created successfully")
 
             } catch (err) {
-                console.error("Recurring quest worker failed:", err);
+                console.error("Recurring quest worker failed");
                 throw err; // pg-boss will catch this and mark the job as failed/retry
             }
         }

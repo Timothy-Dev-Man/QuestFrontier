@@ -42,8 +42,7 @@ async function runMigrations() {
     }
     console.log("🎉 All migrations completed successfully!")
   } catch (err) {
-    console.error("❌ Error running migrations:", err)
-    console.error("Check the SQL syntax in your migration files")
+    console.error("Database migrations failed")
   } finally {
     await pool.end()
   }

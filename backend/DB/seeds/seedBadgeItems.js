@@ -87,7 +87,7 @@ async function seedBadgeItems() {
     console.log("✅ Badge items seeded")
   } catch (err) {
     await client.query("ROLLBACK")
-    console.error("❌ Badge items seed failed:", err)
+    console.error("Badge item seeding failed")
   } finally {
     client.release()
     await pool.end()

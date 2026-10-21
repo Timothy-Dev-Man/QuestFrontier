@@ -3,6 +3,6 @@ import express from 'express';
 
 
 export function startJob() {
-    console.log("Starting job")
+    console.info("Background job startup requested")
     startCronJob()
 }

@@ -302,7 +302,7 @@ async function seedShop() {
     console.log("✅ Shop seed completed")
   } catch (err) {
     await client.query("ROLLBACK")
-    console.error("❌ Shop seed failed:", err)
+    console.error("Shop seeding failed")
   } finally {
     client.release()
     await pool.end()

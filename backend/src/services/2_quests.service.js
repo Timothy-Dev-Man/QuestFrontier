@@ -71,8 +71,6 @@ export async function getQuestById(userId, questId) {
 }
 
 export async function updateProgress(userId, questId) {
-  console.log(`updateProgress: userId: ${userId}, questId: ${questId}`)
-
   const client = await pool.connect()
   try {
     await client.query("BEGIN")
@@ -95,16 +93,15 @@ export async function updateProgress(userId, questId) {
     //    AND deadline >= now() 
     const results = await client.query(sql, [userId, questId])
     const quest = results.rows[0];
-    console.log("quest: ", quest)
 
     if (!quest) {
       await client.query("ROLLBACK")
       return;
     }
 
-    const updateCompleted = await client.query(`UPDATE user_stats SET completed_quests = completed_quests + 1 WHERE user_id = $1 RETURNING completed_quests;`, [userId])
+    await client.query(`UPDATE user_stats SET completed_quests = completed_quests + 1 WHERE user_id = $1 RETURNING completed_quests;`, [userId])
 
-    const updateStreak = await client.query(
+    await client.query(
       `UPDATE streaks
        SET
          current_streak = CASE
@@ -134,14 +131,9 @@ export async function updateProgress(userId, questId) {
       [userId]
     )
 
-    console.log("Completed Quests:", updateCompleted.rows[0])
-    console.log("Streak:", updateStreak.rows[0])
-
-
-
     await client.query("COMMIT")
 
-    const job = await boss.send(
+    await boss.send(
       "quest-completed",
       {
         questId: quest.id,
@@ -149,7 +141,7 @@ export async function updateProgress(userId, questId) {
       }
     );
 
-    console.log("Job: ", job)
+    console.info("Quest completion processed successfully")
 
     return quest;
   } catch (err) {
@@ -162,8 +154,6 @@ export async function updateProgress(userId, questId) {
 
 export async function recurringQuest(userId, quest) {
   try {
-    console.log("(recurringQuest) quest:", quest);
-
     let cronTime = "";
 
     if (quest.type === "One-time") {
@@ -225,6 +215,7 @@ export async function recurringQuest(userId, quest) {
         tz: "America/New_York"
       }
     );
+    console.info("Recurring quest scheduled successfully")
 
   } catch (err) {
     throw err;
@@ -263,16 +254,6 @@ export async function createQuest(
       questDeadlineInput.setDate(questDeadlineInput.getDate() + 1);
     }
 
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    };
-
     const { createdDeadline, reward } = computeExp(
       questDeadlineInput,
       difficulty
@@ -281,13 +262,6 @@ export async function createQuest(
     const questDeadline = deadlineAlreadyAdjusted
       ? questDeadlineInput
       : createdDeadline;
-
-    console.log(
-      "\nQUEST TIMES:",
-      questStart.toLocaleString("en-US", options),
-      questDeadline.toLocaleString("en-US", options),
-      "\n"
-    );
 
     const sql = `
     INSERT INTO quests (
@@ -342,7 +316,6 @@ export async function createQuest(
 
     return quest
   } catch (err) {
-    console.error(`createQuest failed: userId=${userId}, type=${type}`, err)
     throw err
   }
 }

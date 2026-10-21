@@ -23,7 +23,7 @@ async function seedUserBadgeInventory() {
     console.log("✅ User default inventory seed completed")
   } catch (err) {
     await client.query("ROLLBACK")
-    console.error("❌ User default inventory seed failed:", err)
+    console.error("Default inventory seeding failed")
   } finally {
     client.release()
     await pool.end()

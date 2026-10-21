@@ -5,7 +5,6 @@ import { myEmitter, boss } from "../services/eventEmitter.js";
 export async function startDeadlineWorker() {
 
   boss.work("quest-deadline", async ([job]) => {
-    console.log("\nGot quest Deadline!", job, job.id, job.data, job.name);
     const { questId } = job.data;
 
     const client = await pool.connect()
@@ -38,10 +37,9 @@ RETURNING *;`,
         );
         const penalty = result.rows[0]
 
-        const updateMissedQuests = await client.query(`UPDATE user_stats SET missed_quests = missed_quests + 1 WHERE user_id = $1 RETURNING missed_quests;`, [quest.user_id])
-        console.log("Missed Quests: ", updateMissedQuests.rows[0])
+        await client.query(`UPDATE user_stats SET missed_quests = missed_quests + 1 WHERE user_id = $1 RETURNING missed_quests;`, [quest.user_id])
 
-        console.info(`Penalty applied: userId=${quest.user_id}, questId=${quest.id}`)
+        console.info("Penalty applied to failed quest")
 
         sendSseEvent("penalty_applied", {
           userId: quest.user_id,
@@ -55,9 +53,10 @@ RETURNING *;`,
       await client.query(`UPDATE penalties SET active = false WHERE active = true AND ends_at <= now()`)
 
       await client.query("COMMIT")
+      console.info(`Deadline job completed: failedQuestCount=${failedQuests.length}`)
     } catch (error) {
       await client.query("ROLLBACK")
-      console.error("Deadline job run failed:", error)
+      console.error("Deadline job failed")
     } finally {
       client.release()
     }

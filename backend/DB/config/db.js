@@ -12,14 +12,9 @@ const pool = new Pool({
   ssl: false,
 })
 
-// Log when a client connects
-pool.on("connect", () => {
-  console.log("Connected to the database ✅")
-})
-
 // Log unexpected errors
-pool.on("error", (err) => {
-  console.error("Unexpected error on idle client", err)
+pool.on("error", () => {
+  console.error("Unexpected database client error")
 })
 
 export default pool

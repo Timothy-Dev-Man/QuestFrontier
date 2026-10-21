@@ -75,7 +75,6 @@ export async function buyItem(itemId, userId) {
     `
     const results = await client.query(moveToInventorySql, [userId, shopRow.item_id])
     await client.query("COMMIT")
-    console.info(`Shop purchase: userId=${userId}, shopItemId=${itemId}, itemId=${shopRow.item_id}, price=${shopRow.price}`)
     return results.rows
   } catch (err) {
       await client.query("ROLLBACK")

@@ -62,7 +62,6 @@ export async function checkCurrentPassword(password, userId) {
   }
 
   const doesMatch = await bcrypt.compare(password, result.rows[0].password_hash)
-  console.log("pw doesMatch:", doesMatch)
   return doesMatch
 }
 
@@ -71,7 +70,6 @@ export async function getHunter(userId) {
     const sql = `SELECT username, email, setup_complete FROM users WHERE id = $1;`
     const result = await pool.query(sql, [userId])
     const data = result.rows[0]
-    console.log("USER DATA: ", data)
     return data
   } catch (err) {
     throw err
@@ -110,9 +108,6 @@ export async function getUserStats(userId) {
 
     const streak = resultStreak.rows[0]
     const weekly = resultWeekly.rows
-
-    console.log("Streak!: ", streak)
-    console.log("Weekly!: ", weekly)
 
     return {
       stats: result.rows[0],

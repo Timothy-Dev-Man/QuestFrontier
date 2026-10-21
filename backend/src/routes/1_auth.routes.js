@@ -36,7 +36,7 @@ router.post("/logout", authenticate, async (req, res) => {
 
     } catch (err) {
 
-        console.error("Logout error:", err)
+        console.error("Logout failed")
 
         res.status(500).json({
             message: "Failed to logout"
