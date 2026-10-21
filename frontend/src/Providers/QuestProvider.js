@@ -12,6 +12,8 @@ import {
   fetchUpdateProgress,
 } from "../4_api/quests.api.js"
 
+import { getActivePenalty } from "../2_services/penaltyUtils.js"
+
 import { SSEContext } from "./SSEProvider"
 
 import { AuthContext } from "./AuthProvider"
@@ -50,6 +52,13 @@ export function QuestProvider({ children }) {
       );
 
     };
+    async function loadPenalty() {
+
+      const data = await getActivePenalty()
+      setPenaltyStatus(data)
+    }
+
+    loadPenalty()
 
     es.addEventListener(
       "penalty_applied",

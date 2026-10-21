@@ -8,13 +8,15 @@ const PenaltyStatus = ({ penalty, setPenalty }) => {
     const [iconSize, setIconSize] = useState(0);
 
     useEffect(() => {
-        if (!penalty?.penaltyDeadline) {
+        const deadline = penalty?.penaltyDeadline || penalty?.ends_at
+
+        if (!deadline) {
             setTimeRemaining(0)
             return
         }
 
         const updateTime = () => {
-            const remaining = new Date(penalty.penaltyDeadline).getTime() - Date.now()
+            const remaining = new Date(deadline).getTime() - Date.now()
 
             if (remaining <= 0) {
                 setTimeRemaining(0)
@@ -30,7 +32,7 @@ const PenaltyStatus = ({ penalty, setPenalty }) => {
         const interval = setInterval(updateTime, 1000)
 
         return () => clearInterval(interval)
-    }, [penalty?.penaltyDeadline])
+    }, [penalty?.penaltyDeadline, penalty?.ends_at])
 
     let color
     if (!penalty?.active) {
