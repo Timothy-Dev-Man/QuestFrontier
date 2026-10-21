@@ -157,7 +157,7 @@ const Settings = () => {
         </View>
 
         <Pressable
-          onPress={handleLogout}
+          onPress={() => handleLogout()}
           style={{
             backgroundColor: "#430813",
             paddingVertical: 12,

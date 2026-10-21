@@ -75,8 +75,6 @@ export function AuthProvider({ children }) {
 
   // 2c. Function: logout
   const logout = async () => {
-    const token = await getJWTToken().catch(() => null);
-
     try {
       // Invalidate the token on the backend.
       if (token) {
@@ -98,7 +96,7 @@ export function AuthProvider({ children }) {
       });
 
       // Clear your in-memory authentication state too.
-      setActiveToken(null);
+      setToken(null);
       setUser(null);
     }
   };
