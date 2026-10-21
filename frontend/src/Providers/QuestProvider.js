@@ -35,6 +35,14 @@ export function QuestProvider({ children }) {
   const { es } = useContext(SSEContext)
 
   useEffect(() => {
+    setQuests([])
+    setPenaltyStatus(null)
+    setReward(null)
+    setShowReward(false)
+    setLoadingForQuests(false)
+  }, [token])
+
+  useEffect(() => {
 
     if (!es) return;
 
@@ -85,6 +93,7 @@ export function QuestProvider({ children }) {
       const data = JSON.parse(event.data)
 
       setReward(data)
+      setShowReward(true)
 
     }
 
@@ -202,7 +211,6 @@ export function QuestProvider({ children }) {
         const result = await fetchUpdateProgress(effectiveToken, questId)
 
         await getUserQuests(effectiveToken)
-        setShowReward(true)
         return result
 
       } catch (err) {

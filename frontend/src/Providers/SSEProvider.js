@@ -5,10 +5,8 @@ import {
     useState,
 } from "react";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import EventSource from "react-native-sse";
-
-import { STORAGE_KEYS } from "../2_services/storage";
+import { AuthContext } from "./AuthProvider";
 
 export const SSEContext = createContext(null);
 
@@ -18,10 +16,12 @@ export function SSEProvider({ children }) {
 
     const [es, setEs] = useState(null);
     const [connected, setConnected] = useState(false);
+    const { token } = useContext(AuthContext);
 
     useEffect(() => {
 
         let cancelled = false;
+        let eventSource = null;
 
         async function connectSSE() {
 
@@ -30,10 +30,6 @@ export function SSEProvider({ children }) {
             console.log(
                 "SSE BACKEND URL:",
                 BACKEND_URL
-            );
-
-            const token = await AsyncStorage.getItem(
-                STORAGE_KEYS.TOKEN
             );
 
             console.log(
@@ -63,7 +59,7 @@ export function SSEProvider({ children }) {
                 url
             );
 
-            const eventSource = new EventSource(
+            eventSource = new EventSource(
                 url,
                 {
                     headers: {
@@ -147,18 +143,18 @@ export function SSEProvider({ children }) {
 
             setEs((currentEs) => {
 
-                currentEs
+                eventSource
                     ?.removeAllEventListeners();
 
-                currentEs?.close();
+                eventSource?.close();
 
-                return null;
+                return currentEs === eventSource ? null : currentEs;
 
             });
 
         };
 
-    }, []);
+    }, [token]);
 
     return (
         <SSEContext.Provider

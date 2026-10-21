@@ -11,6 +11,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { DevSettings } from "react-native"
 import { ErrorContext } from "./ErrorProvider"
+import { clearAccountOverlayState } from "../2_services/handleOverlay"
 
 // 1. Create the context
 export const AuthContext = createContext()
@@ -21,7 +22,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { setError } = useContext(ErrorContext)
+  const { setError, clearError } = useContext(ErrorContext)
 
   // 2b. Function: login
   const login = async (credentials) => {
@@ -54,6 +55,7 @@ export function AuthProvider({ children }) {
   // 2c. Function: Register
   const register = async (data) => {
     // call backend, get token & user, update state
+    setIsLoading(true)
     try {
       const registerData = await fetchRegister(data)
 
@@ -70,6 +72,8 @@ export function AuthProvider({ children }) {
     } catch (err) {
       setError(err)
       throw new Error(err)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -87,6 +91,8 @@ export function AuthProvider({ children }) {
       const results = await Promise.allSettled([
         removeJWTToken(),
         removeUser(),
+        AsyncStorage.removeItem(STORAGE_KEYS.QUESTS),
+        clearAccountOverlayState(),
       ]);
 
       results.forEach((result) => {
@@ -98,6 +104,7 @@ export function AuthProvider({ children }) {
       // Clear your in-memory authentication state too.
       setToken(null);
       setUser(null);
+      clearError();
     }
   };
 

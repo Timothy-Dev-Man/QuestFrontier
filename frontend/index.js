@@ -20,17 +20,17 @@ import { SSEProvider } from "./src/Providers/SSEProvider"
 
 function Root() {
   return (
-    <SSEProvider>
-      <ErrorProvider>
-        <AuthProvider>
+    <ErrorProvider>
+      <AuthProvider>
+        <SSEProvider>
           <UserProvider>
             <QuestProvider>
               <App />
             </QuestProvider>
           </UserProvider>
-        </AuthProvider>
-      </ErrorProvider>
-    </SSEProvider>
+        </SSEProvider>
+      </AuthProvider>
+    </ErrorProvider>
   )
 }
 

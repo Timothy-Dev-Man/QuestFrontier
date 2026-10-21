@@ -211,9 +211,26 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
 
-    if (!token) return
-
     let cancelled = false
+
+    setLoadingForProfile(false)
+    setProfileLoaded(false)
+    setSetupState(undefined)
+    setHunterName(null)
+    setStats(null)
+    setStreak(null)
+    setWeekly(null)
+    setProgress(null)
+    setCoins(null)
+    setActiveEffects([])
+    setInventory(null)
+    setShop(null)
+
+    if (!token) {
+      return () => {
+        cancelled = true
+      }
+    }
 
     async function loadUserData() {
       try {

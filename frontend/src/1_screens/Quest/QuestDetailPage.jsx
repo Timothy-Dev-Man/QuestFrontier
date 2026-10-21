@@ -112,7 +112,7 @@ export default function QuestDetailPage({ route, navigation }) {
 
     <View style={[styles.container, { padding: 20, paddingTop: 24, paddingBottom: 40 }]}>
 
-      {reward?.reward?.reward && reward?.questId === questId && showReward && (
+      {reward?.reward?.reward && String(reward?.questId) === String(questId) && showReward && (
         <QuestReward
           onClose={() => setShowReward(false)}
         />

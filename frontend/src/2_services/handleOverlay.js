@@ -47,6 +47,18 @@ const applyBlockedApps = (packages) => {
   console.info(`[OVERLAY] Restricted apps synced (${blockedApps.length})`)
 }
 
+export const clearAccountOverlayState = async () => {
+  applyBlockedApps([])
+  AppWatcherServiceModule?.setPenaltyEndsAtMillis?.(0)
+  AppWatcherServiceModule?.setPenaltyActive?.(false)
+
+  try {
+    await AsyncStorage.removeItem(STORAGE_KEYS.BLOCKED_APPS)
+  } catch (error) {
+    console.warn("[OVERLAY] Failed to clear cached blocked apps:", error)
+  }
+}
+
 // Save the user's chosen apps so they survive app restarts
 export const setBlockedApps = async (packages) => {
   const token = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN)
