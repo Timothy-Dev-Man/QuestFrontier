@@ -158,7 +158,7 @@ const QuestsList = () => {
             {/* QUEST AREA */}
             <View style={styles.questPanel}>
 
-              {displayQuests.length === 0 ? (
+              {upcomingQuests.length === 0 ? (
                 <View style={styles.emptyState}>
 
                   <Text style={styles.emptyTitle}>
