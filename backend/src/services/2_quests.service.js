@@ -166,87 +166,177 @@ export async function recurringQuest(userId, quest) {
 
     let cronTime = "";
 
-    // One-time quests do not repeat.
     if (quest.type === "One-time") {
       return;
     }
 
-    if (quest.type === "Daily") {
-      cronTime = `0 ${quest.deadline.getMinutes()} ${quest.deadline.getHours()} * * *`;
-    } else if (quest.type === "Weekly") {
-      cronTime = `0 ${quest.deadline.getMinutes()} ${quest.deadline.getHours()} * * ${quest.deadline.getDay()}`;
-    } else {
-      throw new Error(
-        "There was an error in recurringQuest. quest type did not match what you set"
-      );
+    const startDate = new Date(quest.start);
+
+    if (Number.isNaN(startDate.getTime())) {
+      throw new Error("Invalid quest start date");
     }
 
-    cron.schedule(cronTime, async () => {
-      // Copy both the start and deadline of the current quest
-      const nextStart = new Date(quest.start);
-      const nextDeadline = new Date(quest.deadline);
+    const easternParts = Object.fromEntries(
+      new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+      })
+        .formatToParts(startDate)
+        .filter(({ type }) => type !== "literal")
+        .map(({ type, value }) => [type, value])
+    );
 
-      if (quest.type === "Daily") {
-        nextStart.setDate(nextStart.getDate() + 1);
-        nextDeadline.setDate(nextDeadline.getDate() + 1);
-      } else if (quest.type === "Weekly") {
-        nextStart.setDate(nextStart.getDate() + 7);
-        nextDeadline.setDate(nextDeadline.getDate() + 7);
-      }
+    const weekdays = {
+      Sun: 0,
+      Mon: 1,
+      Tue: 2,
+      Wed: 3,
+      Thu: 4,
+      Fri: 5,
+      Sat: 6,
+    };
 
-      console.log("Creating recurring quest");
-      console.log("Old start:", quest.start);
-      console.log("New start:", nextStart);
-      console.log("Old deadline:", quest.deadline);
-      console.log("New deadline:", nextDeadline);
+    if (quest.type === "Daily") {
+      cronTime = `${Number(easternParts.minute)} ${Number(easternParts.hour)} * * *`;
+    } else if (quest.type === "Weekly") {
+      cronTime = `${Number(easternParts.minute)} ${Number(easternParts.hour)} * * ${weekdays[easternParts.weekday]}`;
+    } else {
+      throw new Error("Invalid recurring quest type");
+    }
 
-      await createQuest(
+    await boss.schedule(
+      "recurring-quest",
+      cronTime, // Optional: Include it here if you need it logged/tracked in job.data
+      {
         userId,
-        {
-          questTitle: quest.title,
-          time: nextStart,
-          deadline: nextDeadline,
-          type: quest.type,
-          questDescription: quest.description,
-          difficulty: quest.difficulty
-        },
-        false
-      );
-    });
+        questId: quest.id,
+        title: quest.title,
+        description: quest.description,
+        difficulty: quest.difficulty,
+        type: quest.type,
+        start: quest.start,
+        deadline: quest.deadline
+      },
+      {
+        key: String(quest.id),
+        tz: "America/New_York"
+      }
+    );
+
   } catch (err) {
     throw err;
   }
 }
 
-export async function createQuest(userId, { questTitle, time, deadline, type, questDescription, difficulty }, shouldSchedule = true) {
+export async function createQuest(
+  userId,
+  {
+    questTitle,
+    time,
+    deadline,
+    type,
+    questDescription,
+    difficulty,
+    recurringParentId = null,
+  },
+  shouldSchedule = true,
+  deadlineAlreadyAdjusted = false
+) {
   // insert a new quest in the DB and return the created quest
   try {
-    const { createdDeadline, reward } = computeExp(deadline, difficulty)
 
-    const sql = `INSERT INTO quests (user_id, title, type, start, deadline, description, difficulty, reward) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;`
+    let questStart = new Date(time);
+    let questDeadlineInput = new Date(deadline);
+
+    // If the start time has passed, move the quest to tomorrow.
+    // If the start time has passed, move both dates to tomorrow.
+    if (questStart < new Date()) {
+      questStart.setDate(questStart.getDate() + 1);
+      questDeadlineInput.setDate(questDeadlineInput.getDate() + 1);
+    }
+
+    // If the deadline is still before the start, move the deadline forward.
+    while (questDeadlineInput < questStart) {
+      questDeadlineInput.setDate(questDeadlineInput.getDate() + 1);
+    }
+
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+
+    const { createdDeadline, reward } = computeExp(
+      questDeadlineInput,
+      difficulty
+    );
+
+    const questDeadline = deadlineAlreadyAdjusted
+      ? questDeadlineInput
+      : createdDeadline;
+
+    console.log(
+      "\nQUEST TIMES:",
+      questStart.toLocaleString("en-US", options),
+      questDeadline.toLocaleString("en-US", options),
+      "\n"
+    );
+
+    const sql = `
+    INSERT INTO quests (
+    user_id, title, type, start, deadline, 
+    description, difficulty, reward, recurring_parent_id
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    ON CONFLICT (recurring_parent_id, start)
+    WHERE recurring_parent_id IS NOT NULL
+    DO NOTHING
+    RETURNING *;`
 
     const results = await pool.query(sql, [
       userId,
       questTitle,
       type,
-      time,
-      createdDeadline,
+      questStart,
+      questDeadline,
       questDescription,
       difficulty,
       reward,
+      recurringParentId
     ])
 
-    const quest = results.rows[0]
+    let quest = results.rows[0];
+
+    if (!quest && recurringParentId !== null) {
+      const existing = await pool.query(
+        `SELECT * FROM quests
+     WHERE recurring_parent_id = $1 AND start = $2`,
+        [recurringParentId, questStart]
+      );
+
+      quest = existing.rows[0];
+    }
+
+    if (!quest) {
+      throw new Error("Failed to create or find quest instance");
+    }
 
     if (shouldSchedule) {
       await recurringQuest(userId, quest)
     }
 
-    const jobId = await boss.send(
+    await boss.send(
       "quest-deadline",
       { questId: quest.id },
       {
-        startAfter: quest.deadline
+        startAfter: quest.deadline,
+        singletonKey: `quest-deadline-${quest.id}`,
       }
     );
 

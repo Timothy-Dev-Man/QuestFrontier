@@ -14,14 +14,15 @@ import shopRoutes from "./src/routes/6_shop.routes.js"
 // Middleware/services:
 import { startDeadlineWorker } from "./src/jobs/deadline.job.js"
 import { startRewardWorker } from "./src/jobs/reward.job.js"
-import { authenticate } from "./src/middleware/auth.middleware.js"
+import { startRecurringQuestWorker } from "./src/jobs/recurringQuest.job.js"
+
 import { addSseClient } from "./src/services/sse.service.js"
+import { authenticate } from "./src/middleware/auth.middleware.js"
 import { getServerLoggerMiddleware } from "./src/middleware/auth.middleware.js"
 
-import { myEmitter, boss } from "./src/services/eventEmitter.js";
+import { boss } from "./src/services/eventEmitter.js";
 
 const PORT = process.env.PORT || 4000
-
 const app = express()
 
 const __filename = fileURLToPath(import.meta.url)
@@ -37,13 +38,18 @@ async function startServer() {
 
   await boss.createQueue("quest-deadline");
   await boss.createQueue("quest-completed");
+  await boss.createQueue("recurring-quest");
 
   console.log('pg-boss has started successfully');
 
   startDeadlineWorker()
   console.log('startDeadlineWorker started successfully');
+
   startRewardWorker()
   console.log('startRewardWorker started successfully');
+
+  startRecurringQuestWorker();
+  console.log("startRecurringQuestWorker started successfully");
 
   app.use(express.json())
   app.use(getServerLoggerMiddleware())
