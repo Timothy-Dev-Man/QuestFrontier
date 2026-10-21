@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
 
     headerTitle: {
         color: "#7FAEFF",
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: "700",
         letterSpacing: 2,
     },
