@@ -23,9 +23,9 @@ export const createQuestValidation = [
 
     .withMessage("Quest title is required")
 
-    .isLength({ min: 4, max: 20 })
+    .isLength({ min: 4, max: 30 })
 
-    .withMessage("Quest title must be between 4 and 20 characters"),
+    .withMessage("Quest title must be between 4 and 30 characters"),
 
 
   body("questData.time")
