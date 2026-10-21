@@ -14,10 +14,6 @@ function Daily({
   setQuestTime,
   open,
   setOpen,
-  active,
-  setActive,
-  times,
-  currentIndex,
   updateTime,
   iconColor,
   iconName,
@@ -29,6 +25,16 @@ function Daily({
   setDurationOpen,
   setDeadline
 }) {
+  const startTimes = Array.from({ length: 48 }, (_, index) => {
+    const hour24 = Math.floor(index / 2);
+
+    return {
+      hour: hour24 % 12 || 12,
+      minute: (index % 2) * 30,
+      period: hour24 < 12 ? "AM" : "PM"
+    };
+  });
+
   return (
     <View style={questStyles.questDateContainer}>
 
@@ -108,15 +114,15 @@ function Daily({
                 nestedScrollEnabled
                 style={{ maxHeight: 200 }}
               >
-                {times.map((item) => (
+                {startTimes.map((item) => (
                   <Pressable
-                    key={`${item.hour}:${item.minute}`}
+                    key={`${item.hour}:${item.minute}:${item.period}`}
                     style={questStyles.timeOption}
                     onPress={() => {
                       updateTime(
                         item.hour,
                         item.minute,
-                        active
+                        item.period
                       );
 
                       setOpen(false);
@@ -125,7 +131,7 @@ function Daily({
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
-                      {active}
+                      {item.period}
                     </Text>
                   </Pressable>
                 ))}

@@ -18,8 +18,6 @@ function WeeklyDropDown({
     setDaysOpen,
     open,
     setOpen,
-    active,
-    setActive,
     times,
     currentIndex,
     updateTime,
@@ -183,19 +181,17 @@ function WeeklyDropDown({
                             >
                                 {times.map((item) => (
                                     <Pressable
-                                        key={`${item.hour}:${item.minute}`}
+                                        key={`${item.hour}:${item.minute}:${item.period}`}
                                         style={questStyles.timeOption}
                                         onPress={() => {
-                                            updateTime(item.hour, item.minute);
+                                            updateTime(item.hour, item.minute, item.period);
                                             setOpen(false);
                                         }}
                                     >
                                         <Text style={questStyles.inputText}>
                                             {item.hour}:
                                             {String(item.minute).padStart(2, "0")}{" "}
-                                            {item.hour === 12 || item.hour < 12
-                                                ? "AM"
-                                                : "PM"}
+                                            {item.period}
                                         </Text>
                                     </Pressable>
                                 ))}

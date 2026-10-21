@@ -31,7 +31,6 @@ function Once({
   setDeadlineTime,
   open,
   setOpen,
-  active,
   times,
   currentIndex,
   updateTime,
@@ -40,7 +39,6 @@ function Once({
   deadlineTime,
   openDeadline,
   setOpenDeadline,
-  deadlineActive,
   deadlineTimes,
   deadlineIndex,
   updateDeadline,
@@ -270,13 +268,13 @@ function Once({
               >
                 {times.map((item) => (
                   <Pressable
-                    key={`${item.hour}:${item.minute}`}
+                    key={`${item.hour}:${item.minute}:${item.period}`}
                     style={questStyles.timeOption}
                     onPress={() => {
                       updateTime(
                         item.hour,
                         item.minute,
-                        active
+                        item.period
                       );
                       setOpen(false);
                     }}
@@ -284,7 +282,7 @@ function Once({
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
-                      {active}
+                      {item.period}
                     </Text>
                   </Pressable>
                 ))}
@@ -338,13 +336,13 @@ function Once({
               >
                 {deadlineTimes.map((item) => (
                   <Pressable
-                    key={`${item.hour}:${item.minute}`}
+                    key={`${item.hour}:${item.minute}:${item.period}`}
                     style={questStyles.timeOption}
                     onPress={() => {
                       updateDeadline(
                         item.hour,
                         item.minute,
-                        deadlineActive
+                        item.period
                       );
 
                       setOpenDeadline(false);
@@ -353,7 +351,7 @@ function Once({
                     <Text style={questStyles.inputText}>
                       {item.hour}:
                       {String(item.minute).padStart(2, "0")}{" "}
-                      {deadlineActive}
+                      {item.period}
                     </Text>
                   </Pressable>
                 ))}

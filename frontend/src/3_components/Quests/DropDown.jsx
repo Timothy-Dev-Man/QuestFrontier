@@ -47,15 +47,15 @@ function DropDown({
   );
   const [selectedDay, setSelectedDay] = useState(daysOfWeek[0]);
 
-  const times = [];
-  for (let hour = 1; hour <= 12; hour++) {
-    for (let minute = 0; minute < 60; minute += 30) {
-      times.push({
-        hour,
-        minute
-      });
-    }
-  }
+  const times = Array.from({ length: 48 }, (_, index) => {
+    const hour24 = Math.floor(index / 2);
+
+    return {
+      hour: hour24 % 12 || 12,
+      minute: (index % 2) * 30,
+      period: hour24 < 12 ? "AM" : "PM"
+    };
+  });
 
   function updateDeadlineFromDuration(startTime, duration) {
     const updated = new Date(startTime);
