@@ -20,6 +20,7 @@ const migrations = [
   "Users/user_inventory.sql",
   "Users/user_inventory_defaults.sql",
   "Quests/quests.sql",
+  "Quests/update.sql",
   "Rewards/stat_rewards.sql",
   "Rewards/streaks.sql",
   "Penalties/penalties.sql",
