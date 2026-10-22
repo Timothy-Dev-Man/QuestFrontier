@@ -63,7 +63,6 @@ const Intro = ({ navigation }) => {
         const success = await setSetup(token)
 
         if (success) {
-            console.log("Setup finished")
             navigation.navigate("BlockedApps")
         }
     }

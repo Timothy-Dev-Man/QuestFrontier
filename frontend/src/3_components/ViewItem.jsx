@@ -90,7 +90,6 @@ export default function ViewItem({ route }) {
       }
 
       const data = await res.json()
-      console.log("data: ", data)
 
       await getUserShop()
       await getUserInventory()

@@ -41,7 +41,6 @@ function ForgotPassword() {
         setIsSubmitting(true)
         try {
             const user = await fetchCheckUserExists(email.trim())
-            console.log("fetchCheckUserExists user", user)
             setUserId(user.id)
             await fetchForgotPassword(email.trim())
             setCodeRequested(true)
@@ -57,7 +56,6 @@ function ForgotPassword() {
         setIsSubmitting(true)
         try {
             const results = await fetchVerifyReset(email.trim(), code.trim())
-            console.log("fetchVerifyReset results", results)
             setCodeResponse(results.valid)
             setCodeRequested(false)
         } catch (err) {

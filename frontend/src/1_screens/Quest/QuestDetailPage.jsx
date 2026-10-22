@@ -49,7 +49,6 @@ export default function QuestDetailPage({ route, navigation }) {
 
         const data = await fetchQuestById(token, questId)
 
-        console.log("fetched quest by id: ", data)
         setQuest(data)
 
       } catch (err) {
@@ -75,7 +74,6 @@ export default function QuestDetailPage({ route, navigation }) {
 
     const data = await fetchQuestById(token, questId)
 
-    console.log("fetched quest by id: ", data)
     setQuest(data)
 
   }

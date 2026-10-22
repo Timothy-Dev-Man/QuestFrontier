@@ -104,12 +104,6 @@ function RootNavigator() {
   }
 
 
-  console.log("ROOT NAVIGATION STATE:", {
-    user,
-    setup,
-  })
-
-
   return (
     <>
       <ErrorOverlay error={error} />

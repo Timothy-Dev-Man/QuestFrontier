@@ -102,7 +102,6 @@ export async function fetchUserSetup(token) {
   try {
     const url = `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/setup`
 
-    console.log("b4 response")
     const response = await fetch(url, {
       method: "PUT",
       headers: {
@@ -112,13 +111,11 @@ export async function fetchUserSetup(token) {
         Pragma: "no-cache",
       },
     })
-    console.log("after", response)
     if (!response.ok) {
       throw new Error("Failed to PUT setup" + response.status)
     }
 
     const data = await response.json()
-    console.log("data", data)
     return data
   } catch (err) {
     console.error("[user.api] Failed to fetch setup", err)

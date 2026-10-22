@@ -144,7 +144,6 @@ export async function fetchUpdateProgress(token, questId) {
 }
 
 export async function fetchUpdateDescription(token, questId, newDescription) {
-  console.log("newDescription: ", newDescription)
   try {
 
     const url =

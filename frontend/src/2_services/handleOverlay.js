@@ -98,7 +98,6 @@ export const loadSavedBlockedApps = async () => {
     const packages = Array.isArray(data)
       ? data
       : data?.list || data?.restricted_apps || data?.restrictedApps
-    console.log("pack: ", packages)
     if (!Array.isArray(packages)) {
       throw new Error("Unexpected blocked-app response")
     }

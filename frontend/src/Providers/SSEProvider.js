@@ -24,40 +24,17 @@ export function SSEProvider({ children }) {
         let eventSource = null;
 
         async function connectSSE() {
-
-            console.log("========== SSE START ==========");
-
-            console.log(
-                "SSE BACKEND URL:",
-                BACKEND_URL
-            );
-
-            console.log(
-                "SSE TOKEN EXISTS:",
-                !!token
-            );
-
             if (!token) {
-                console.log("SSE: NO TOKEN");
                 return;
             }
 
             if (!BACKEND_URL) {
-                console.log(
-                    "SSE: BACKEND URL IS UNDEFINED"
-                );
-
                 return;
             }
 
             if (cancelled) return;
 
             const url = `${BACKEND_URL}/events`;
-
-            console.log(
-                "SSE CONNECTING TO:",
-                url
-            );
 
             eventSource = new EventSource(
                 url,
@@ -68,7 +45,6 @@ export function SSEProvider({ children }) {
 
                     timeout: 0,
                     pollingInterval: 5000,
-                    debug: true,
                 }
             );
 
@@ -77,39 +53,14 @@ export function SSEProvider({ children }) {
             eventSource.addEventListener(
                 "open",
                 () => {
-
-                    console.log("✅ SSE OPEN");
-
                     setConnected(true);
 
                 }
             );
 
             eventSource.addEventListener(
-                "connected",
-                (event) => {
-
-                    console.log(
-                        "✅ SSE CONNECTED EVENT"
-                    );
-
-                    console.log(
-                        "SSE DATA:",
-                        event.data
-                    );
-
-                }
-            );
-
-            eventSource.addEventListener(
                 "error",
-                (event) => {
-
-                    console.log(
-                        "❌ SSE ERROR:",
-                        event
-                    );
-
+                () => {
                     setConnected(false);
 
                 }
@@ -118,11 +69,6 @@ export function SSEProvider({ children }) {
             eventSource.addEventListener(
                 "close",
                 () => {
-
-                    console.log(
-                        "⚠️ SSE CLOSED"
-                    );
-
                     setConnected(false);
 
                 }
@@ -134,10 +80,6 @@ export function SSEProvider({ children }) {
         return () => {
 
             cancelled = true;
-
-            console.log(
-                "SSE CLEANUP"
-            );
 
             setConnected(false);
 

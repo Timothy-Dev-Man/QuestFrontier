@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
       const data = await fetchLogin(credentials)
 
       if (!data || !data.user || !data.token) {
-        console.error("Invalid login data:", data)
+        console.error("Invalid login response")
         return
       }
 
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
       const registerData = await fetchRegister(data)
 
       if (!registerData || !registerData.user || !registerData.token) {
-        console.error("[auth] Invalid register response", registerData)
+        console.error("[auth] Invalid register response")
         return
       }
 

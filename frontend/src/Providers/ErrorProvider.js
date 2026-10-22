@@ -10,6 +10,11 @@ export function ErrorProvider({ children }) {
   const [error, setErrorState] = useState(null)
 
   function sanitizeErrorMessage(input) {
+    const backendMessage = input?.response?.data?.message
+    if (typeof backendMessage === "string" && backendMessage.trim()) {
+      return backendMessage.trim()
+    }
+
     const raw =
       typeof input === "string"
         ? input

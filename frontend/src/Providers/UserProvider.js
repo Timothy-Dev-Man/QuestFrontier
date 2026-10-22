@@ -48,17 +48,14 @@ export function UserProvider({ children }) {
 
         const effectiveToken = activeToken || token
 
-        console.log("GET USER PROFILE CALLED:", effectiveToken)
-
         if (!effectiveToken) return
 
         const profile = await fetchUserProfile(effectiveToken)
 
-        console.log("USER PROFILE:", profile.hunter)
         const hunter = profile?.hunter ?? profile
 
         if (!hunter?.username) {
-          console.error("Invalid user profile:", profile)
+          console.error("Invalid user profile")
           return
         }
 
@@ -71,8 +68,6 @@ export function UserProvider({ children }) {
         setCoins(profile.progress.coins)
 
         const profileSetup = profile.setup ?? profile.set_up
-
-        console.log("PROFILE SETUP:", profileSetup)
 
         if (profileSetup !== undefined) {
           setSetupState(Boolean(profileSetup))
@@ -99,7 +94,6 @@ export function UserProvider({ children }) {
         const results = await fetchUserSetup(effectiveToken)
 
         const newSetup = results?.setup_complete
-        console.log("newSetup: ", newSetup)
         setSetupState(newSetup)
 
         return newSetup
@@ -118,7 +112,6 @@ export function UserProvider({ children }) {
         if (!token) return
 
         const userInventory = await fetchUserInventory(token)
-        console.log("Inventory: ", userInventory)
         setInventory(userInventory)
 
       } catch (err) {
@@ -248,8 +241,6 @@ export function UserProvider({ children }) {
 
         if (cancelled) return
 
-        console.log("USER PROFILE:", profile)
-
         setHunterName(profile.hunter.username)
         setStats(profile.stats)
         setStreak(profile.streak)
@@ -258,8 +249,6 @@ export function UserProvider({ children }) {
         setCoins(profile.progress.coins)
 
         const profileSetup = profile.setup ?? profile.set_up
-
-        console.log("PROFILE SETUP:", profileSetup)
 
         if (profileSetup !== undefined) {
           setSetupState(Boolean(profileSetup))

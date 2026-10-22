@@ -25,7 +25,6 @@ const Card = ({ id, title, description, price, icon, isItem = false, quantity })
 
     async function handleUse() {
         if (isSubmitting) return
-        console.log(`HandleUse reached: isSubmitting: ${isSubmitting}, `)
 
         setIsSubmitting(true)
 
