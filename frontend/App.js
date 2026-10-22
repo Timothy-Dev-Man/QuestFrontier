@@ -4,6 +4,7 @@ import React from "react"
 
 import Register from "./src/1_screens/Auth/Register"
 import Login from "./src/1_screens/Auth/Login"
+import ForgotPassword from "./src/1_screens/Auth/ForgotPassword"
 
 import Home from "./src/1_screens/Home"
 
@@ -43,6 +44,7 @@ function AuthStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
     </Stack.Navigator>
   )
 }
