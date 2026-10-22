@@ -8,6 +8,7 @@ import pool from "./config/db.js"
 
 const migrations = [
   "Users/users.sql",
+  "Users/password_reset_codes.sql",
   "Users/user_stats.sql",
   "Users/progress.sql",
   "Users/revoked_tokens.sql",

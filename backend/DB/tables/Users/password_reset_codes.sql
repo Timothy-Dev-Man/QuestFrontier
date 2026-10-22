@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS password_reset_codes (
+    user_id INTEGER PRIMARY KEY
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    code_hash CHAR(64) NOT NULL,
+
+    expires_at TIMESTAMPTZ NOT NULL,
+
+    attempts INTEGER NOT NULL DEFAULT 0
+        CHECK (attempts BETWEEN 0 AND 5),
+
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
