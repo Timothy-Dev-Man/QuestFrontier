@@ -107,11 +107,22 @@ export async function createUser(name, email, password) {
   }
 }
 
+export async function findUserByUsername(name) {
+  // query DB for a user by email and return user record or null
+  try {
+    const sql = `SELECT * FROM users WHERE LOWER(username) = $1;`
+    const result = await pool.query(sql, [name.toLowerCase()])
+    return result.rows[0]
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
 export async function findUserByEmail(email) {
   // query DB for a user by email and return user record or null
   try {
-    const sql = `SELECT * FROM users WHERE email = $1;`
-    const result = await pool.query(sql, [email])
+    const sql = `SELECT * FROM users WHERE LOWER(email) = $1;`
+    const result = await pool.query(sql, [email.toLowerCase()])
     return result.rows[0]
   } catch (err) {
     throw new Error(err.message)
@@ -128,15 +139,17 @@ export async function findUserById(id) {
     throw new Error(err.message)
   }
 }
-``
-export async function loginUser(email, password) {
+
+export async function loginUser({ email, name, password }) {
   // validate credentials, return user info + token if valid, else throw
   try {
-    const user = await findUserByEmail(email)
+    const user = email
+      ? await findUserByEmail(email)
+      : await findUserByUsername(name);
     const verifiedPassword = await comparePassword(password, user.password_hash)
 
     if (verifiedPassword === false) {
-      throw new Error("Password invalid")
+      throw new Error("Invalid email, username or password")
     }
 
     const token = generateJWT(user)
