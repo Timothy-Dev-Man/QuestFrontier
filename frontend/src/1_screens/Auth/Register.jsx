@@ -16,7 +16,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import { BlurView } from "expo-blur"
 import backgroundImage from '../../../assets/auth_background.png'
-import { useAuth, useError } from "../../2_services/context"
+import { useAuth, useError } from "../../2_services/context.js"
 import authStyles from '../../Styles/authStyles.js'
 
 const Register = ({ navigation }) => {

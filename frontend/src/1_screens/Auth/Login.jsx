@@ -15,7 +15,7 @@ import {
 import { BlurView } from "expo-blur"
 import backgroundImage from "../../../assets/auth_background.png"
 import authStyles from "../../Styles/authStyles.js"
-import { useAuth, useError } from "../../2_services/context"
+import { useAuth, useError } from "../../2_services/context.js"
 
 const Login = ({ navigation }) => {
   const [emailValue, setEmailValue] = useState("")
