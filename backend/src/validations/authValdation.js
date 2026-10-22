@@ -14,3 +14,14 @@ export const registerValidation = [
     })
     .withMessage("Password must have 8 Characters, 1 Uppercase, 1 Symbol, and 1 Number"),
 ];
+
+export const updatePasswordValidation = [
+  body("password")
+    .isStrongPassword({
+      minLength: 8,
+      minNumbers: 1,
+      minSymbols: 1,
+      minUppercase: 1,
+    })
+    .withMessage("Password must have 8 Characters, 1 Uppercase, 1 Symbol, and 1 Number"),
+];

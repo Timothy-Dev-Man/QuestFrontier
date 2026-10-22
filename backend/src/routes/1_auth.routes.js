@@ -1,7 +1,7 @@
 // auth.routes.js
 import express from "express"
-import { register, login } from "../controllers/1_auth.controller.js"
-import { registerValidation } from "../validations/authValdation.js"
+import { register, login, checkUserExists, forgotPassword, verifyPasswordResetCode, resetPassword } from "../controllers/1_auth.controller.js"
+import { registerValidation, updatePasswordValidation } from "../validations/authValdation.js"
 import { validate } from "../middleware/validation.middleware.js"
 import { authenticate } from "../middleware/auth.middleware.js"
 import pool from "../../DB/config/db.js"
@@ -14,6 +14,14 @@ router.post("/register", ...registerValidation, validate, register)
 
 // POST /auth/login
 router.post("/login", login)
+
+router.post("/checkUser", checkUserExists)
+
+router.post("/forgot-password", forgotPassword)
+
+router.post("/verify-reset-code", verifyPasswordResetCode);
+
+router.post("/reset-password", ...updatePasswordValidation, validate, resetPassword)
 
 router.post("/logout", authenticate, async (req, res) => {
 
