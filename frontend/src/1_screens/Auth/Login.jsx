@@ -18,7 +18,7 @@ import authStyles from "../../Styles/authStyles.js"
 import { useAuth, useError } from "../../2_services/context.js"
 
 const Login = ({ navigation }) => {
-  const [emailValue, setEmailValue] = useState("")
+  const [value, setValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       await login({
-        email: emailValue,
+        value: value,
         password: passwordValue,
       })
     } catch (err) {
@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
   }
 
   const canLogin =
-    emailValue.trim().length > 0 && passwordValue.length > 0
+    value.trim().length > 0 && passwordValue.length > 0
 
   return (
     <KeyboardAvoidingView
@@ -80,8 +80,8 @@ const Login = ({ navigation }) => {
 
                 <TextInput
                   style={authStyles.input}
-                  value={emailValue}
-                  onChangeText={setEmailValue}
+                  value={value}
+                  onChangeText={setValue}
                   placeholder="Email or Username"
                   placeholderTextColor="#586985"
                   autoCapitalize="none"
@@ -118,7 +118,7 @@ const Login = ({ navigation }) => {
                 </View>
 
                 <View style={authStyles.optionsRow}>
-                  <Pressable>
+                  <Pressable onPress={() => navigation.navigate("ForgotPassword")} >
                     <Text style={authStyles.forgotText}>
                       Forgot password?
                     </Text>
