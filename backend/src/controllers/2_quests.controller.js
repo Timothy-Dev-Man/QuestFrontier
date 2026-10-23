@@ -32,7 +32,7 @@ export async function getQuestsByIdController(req, res) {
     res.status(200).json(getQuestId)
   } catch (err) {
     console.error("Quest retrieval failed")
-    res.status(400).json("Failed to retrieve quest")
+    res.status(400).json({ message: "Failed to retrieve quest" })
   }
 }
 

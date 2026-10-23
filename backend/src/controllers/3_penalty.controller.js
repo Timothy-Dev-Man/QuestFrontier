@@ -7,7 +7,7 @@ export async function getAllPenaltiesController(req, res) {
     const getPenalty = await getAllActivePenalties(userId)
     console.info("Active penalty retrieval completed")
     if (getPenalty === null || getPenalty === undefined) {
-      return res.status(200).json("There are no penalties active")
+      return res.status(200).json({ message: "There are no penalties active" })
     }
     res.status(200).json(getPenalty)
   } catch (err) {
@@ -36,7 +36,7 @@ export async function getPenaltyForQuestController(req, res) {
     })
   } catch (err) {
     console.error("Quest penalty retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve quest penalty" })
+    res.status(500).json({ message: "Failed to retrieve quest penalty" })
   }
 }
 
@@ -57,7 +57,7 @@ export async function setListOfApps(req, res) {
     res.status(200).json(setList)
   } catch (err) {
     console.error("Restricted app list update failed")
-    res.status(500).json({ error: "Failed to update restricted app list" })
+    res.status(500).json({ message: "Failed to update restricted app list" })
   }
 }
 
@@ -70,7 +70,7 @@ export async function getListOfApps(req, res) {
     res.status(200).json(getList)
   } catch (err) {
     console.error("Restricted app list retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve restricted app list" })
+    res.status(500).json({ message: "Failed to retrieve restricted app list" })
   }
 }
 

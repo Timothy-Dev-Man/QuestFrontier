@@ -7,7 +7,7 @@ export async function getShopItemsController(req, res) {
     res.status(200).json(store)
   } catch (err) {
     console.error("Shop item retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve shop items" })
+    res.status(500).json({ message: "Failed to retrieve shop items" })
   }
 }
 
@@ -18,7 +18,7 @@ export async function buyItemController(req, res) {
 
     if (!itemId) {
       console.warn("Shop purchase rejected: item ID missing")
-      return res.status(400).json({ error: "itemId is required" })
+      return res.status(400).json({ message: "itemId is required" })
     }
 
     const newItem = await buyItem(itemId, userId)
@@ -26,6 +26,6 @@ export async function buyItemController(req, res) {
     res.status(200).json(newItem)
   } catch (err) {
     console.error("Shop purchase failed")
-    res.status(500).json({ error: "Shop purchase failed" })
+    res.status(500).json({ message: "Shop purchase failed" })
   }
 }

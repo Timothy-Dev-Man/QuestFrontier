@@ -24,7 +24,7 @@ export async function updateUsernameController(req, res) {
     res.status(200).json(hunterName)
   } catch (err) {
     console.error("Username update failed")
-    res.status(500).json({ error: "Failed to update username" })
+    res.status(500).json({ message: "Failed to update username" })
   }
 }
 
@@ -81,7 +81,7 @@ export async function updateSetupController(req, res) {
     res.status(200).json(setup)
   } catch (err) {
     console.error("User setup update failed")
-    res.status(500).json({ error: "Failed to update user setup" })
+    res.status(500).json({ message: "Failed to update user setup" })
   }
 }
 
@@ -98,7 +98,7 @@ export async function getUserProfileController(req, res) {
     res.status(200).json({ hunter, stats, streak, weekly, progress, setup: data.setup_complete })
   } catch (err) {
     console.error("User profile retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve user profile" })
+    res.status(500).json({ message: "Failed to retrieve user profile" })
   }
 }
 
@@ -111,7 +111,7 @@ export async function updateUserStatsController(req, res) {
     res.status(200).json(newStats)
   } catch (err) {
     console.error("User stats update failed")
-    res.status(500).json({ error: "Failed to update user stats" })
+    res.status(500).json({ message: "Failed to update user stats" })
   }
 }
 
@@ -123,7 +123,7 @@ export async function getUserInventoryController(req, res) {
     res.status(200).json(inventory)
   } catch (err) {
     console.error("User inventory retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve user inventory" })
+    res.status(500).json({ message: "Failed to retrieve user inventory" })
   }
 }
 
@@ -134,7 +134,7 @@ export async function useInventoryItemController(req, res) {
 
     if (!itemId) {
       console.warn("Inventory item use rejected: item ID missing")
-      return res.status(400).json({ error: "itemId is required" })
+      return res.status(400).json({ message: "itemId is required" })
     }
 
     const result = await useInventoryItem(userId, itemId)
@@ -142,7 +142,7 @@ export async function useInventoryItemController(req, res) {
     res.status(200).json(result)
   } catch (err) {
     console.error("Inventory item use failed")
-    res.status(500).json({ error: "Failed to use inventory item" })
+    res.status(500).json({ message: "Failed to use inventory item" })
   }
 }
 
@@ -155,6 +155,6 @@ export async function getActiveEffectsController(req, res) {
     res.status(200).json(activeEffects)
   } catch (err) {
     console.error("Active effects retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve active effects" })
+    res.status(500).json({ message: "Failed to retrieve active effects" })
   }
 }

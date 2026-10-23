@@ -3,13 +3,13 @@ import { getBadges, updateBadge } from "../services/5_badges.service.js"
 export async function updateUserBadges(req, res) {
   try {
     const userId = req.user.id
-    const {badgeId} = req.body
+    const { badgeId } = req.body
     const badge = await updateBadge(badgeId, userId)
     console.info("User badge updated successfully")
     res.status(200).json(badge)
   } catch (err) {
     console.error("User badge update failed")
-    res.status(500).json({ error: "Failed to update user badge" })
+    res.status(500).json({ message: "Failed to update user badge" })
   }
 }
 
@@ -21,6 +21,6 @@ export async function getBagesFromStore(req, res) {
     res.status(200).json(badges)
   } catch (err) {
     console.error("Badge store retrieval failed")
-    res.status(500).json({ error: "Failed to retrieve badge store" })
+    res.status(500).json({ message: "Failed to retrieve badge store" })
   }
 }

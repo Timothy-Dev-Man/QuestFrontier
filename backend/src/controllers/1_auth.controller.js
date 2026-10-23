@@ -12,8 +12,8 @@ export async function register(req, res) {
     const user = await registerUser(name, email, password)
     res.status(200).json(user)
   } catch (err) {
-    console.error("User registration failed")
-    res.status(500).json("User registration failed")
+    console.error("User registration failed", err)
+    res.status(500).json({ message: err.message })
   }
 }
 
@@ -32,8 +32,8 @@ export async function login(req, res) {
     console.info("User login succeeded")
     res.status(200).json(user)
   } catch (err) {
-    console.warn("User login failed")
-    res.status(401).json({ error: "Invalid email or password" })
+    console.warn("User login failed", err.message)
+    res.status(401).json({ message: "Invalid email or password" })
   }
 }
 
@@ -47,7 +47,7 @@ export async function checkUserExists(req, res) {
     res.status(200).json(user)
   } catch (err) {
     console.warn("User login failed")
-    res.status(401).json({ error: "Invalid email or password" })
+    res.status(401).json({ message: "Invalid email or password" })
   }
 }
 
