@@ -86,24 +86,21 @@ export async function createUser(name, email, password) {
     await client.query(`INSERT INTO user_stats (user_id, focus) VALUES ($1, 1);`, [user.id])
     await client.query('INSERT INTO streaks (user_id) VALUES ($1);', [user.id])
 
-    const defaultBadgeResult = await client.query(`SELECT id FROM badges ORDER BY id LIMIT 1;`)
-    if (defaultBadgeResult.rows.length > 0) {
-      const defaultBadgeId = defaultBadgeResult.rows[0].id
-      await client.query(`INSERT INTO user_badges (user_id, badge_id) VALUES ($1, $2)`, [user.id, defaultBadgeId])
-    } else {
-      await client.query(`INSERT INTO user_badges (user_id, badge_id) VALUES ($1, NULL)`, [user.id])
-    }
-
     await client.query("COMMIT");
     console.info("User account created successfully")
 
     return user
   } catch (err) {
     await client.query("ROLLBACK");
-    if (err.code === '23505') {
-      throw new Error('Email already exists');
+    if (err.constraint === "users_username_key") {
+      throw new Error("Username already exists");
     }
+    if (err.constraint === "users_email_key") {
+      throw new Error("Email already exists");
+    }
+    
     throw err
+
   }
 }
 
