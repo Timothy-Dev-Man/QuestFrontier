@@ -66,12 +66,12 @@ export function computeExp(time, difficulty) {
     Hard: {
       timeReduction: 30,
       xp: 175,
-      coins: 3555,
+      coins: 35,
     },
     Extreme: {
       timeReduction: 45,
-      xp: 30000,
-      coins: 50000
+      xp: 300,
+      coins: 50
     }
   };
 
