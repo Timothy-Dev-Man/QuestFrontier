@@ -1,3 +1,5 @@
+import { parseErrorResponse } from "./auth.api"
+
 export async function fetchUpdateHunterName(name, token) {
   const response = await fetch(
     `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/name`,
@@ -11,12 +13,7 @@ export async function fetchUpdateHunterName(name, token) {
     },
   )
 
-  if (!response.ok) {
-    throw new Error("Failed to POST Hunter name " + response.status)
-  }
-
-  const data = await response.json()
-  return data
+  return parseErrorResponse(response)
 }
 
 export async function fetchUserProfile(token) {
@@ -33,13 +30,7 @@ export async function fetchUserProfile(token) {
       },
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to GET Hunter profile " + response.status)
-    }
-
-    const raw = await response.text()
-    const data = raw ? JSON.parse(raw) : {}
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to fetch user profile", err)
     throw err
@@ -60,12 +51,7 @@ export async function fetchUserInventory(token) {
       },
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to GET Inventory " + response.status)
-    }
-
-    const data = await response.json()
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to fetch inventory", err)
     throw err
@@ -86,12 +72,7 @@ export async function fetchUserShop(token) {
       },
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to GET shop " + response.status)
-    }
-
-    const data = await response.json()
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to fetch shop", err)
     throw err
@@ -111,12 +92,7 @@ export async function fetchUserSetup(token) {
         Pragma: "no-cache",
       },
     })
-    if (!response.ok) {
-      throw new Error("Failed to PUT setup" + response.status)
-    }
-
-    const data = await response.json()
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to fetch setup", err)
     throw err
@@ -136,11 +112,7 @@ export async function updateUsername(token, username) {
       body: JSON.stringify({ newName: username }),
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to update username: " + response.status)
-    }
-
-    return await response.json()
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to update username", err)
     throw err
@@ -160,11 +132,7 @@ export async function updateUserEmail(token, email) {
       body: JSON.stringify({ email }),
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to update email: " + response.status)
-    }
-
-    return await response.json()
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to update email", err)
     throw err
@@ -184,11 +152,7 @@ export async function updateUserPassword(token, password) {
       body: JSON.stringify({ password }),
     })
 
-    if (!response.ok) {
-      throw new Error("Failed to update password: " + response.status)
-    }
-
-    return await response.json()
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[user.api] Failed to update password", err)
     throw err

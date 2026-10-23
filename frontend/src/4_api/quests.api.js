@@ -1,3 +1,5 @@
+import { parseErrorResponse } from "./auth.api"
+
 export async function fetchQuests(token) {
   const response = await fetch(
     `${process.env.EXPO_PUBLIC_BACKEND_URL}/quests`,
@@ -10,12 +12,7 @@ export async function fetchQuests(token) {
     },
   )
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch quests " + response.status)
-  }
-
-  const data = await response.json()
-  return data
+  return parseErrorResponse(response)
 }
 
 export async function fetchQuestById(token, questId) {
@@ -30,12 +27,7 @@ export async function fetchQuestById(token, questId) {
     },
   )
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch quest " + response.status)
-  }
-
-  const data = await response.json()
-  return data
+  return parseErrorResponse(response)
 }
 
 export async function fetchCreateQuests(token, credentials) {
@@ -61,37 +53,7 @@ export async function fetchCreateQuests(token, credentials) {
       },
     )
 
-    if (!response.ok) {
-
-      const responseText = await response.text();
-
-      let errData;
-      try {
-        errData = JSON.parse(responseText);
-      } catch {
-        errData = null;
-      }
-
-      if (!response.ok) {
-        console.error("[quests.api] Server rejected quest:", {
-          status: response.status,
-          body: errData ?? responseText,
-        });
-
-        throw new Error(
-          errData?.message ||
-          errData?.error ||
-          JSON.stringify(errData?.errors) ||
-          `Failed to create quest (${response.status})`
-        );
-      }
-
-      return errData;
-
-    }
-
-    const data = await response.json()
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[quests.api] Failed to create quest", err)
     throw err
@@ -116,21 +78,7 @@ export async function fetchUpdateProgress(token, questId) {
       },
     )
 
-    const data = await response.json().catch(() => null)
-
-    if (!response.ok) {
-
-      if (response.status === 401) {
-        throw new Error("Unauthorized")
-      }
-
-      throw new Error(
-        data?.message ||
-        `Failed to update quest (${response.status})`
-      )
-    }
-
-    return data
+    return await parseErrorResponse(response)
 
   } catch (err) {
 
@@ -163,21 +111,7 @@ export async function fetchUpdateDescription(token, questId, newDescription) {
       },
     )
 
-    const data = await response.json().catch(() => null)
-
-    if (!response.ok) {
-
-      if (response.status === 401) {
-        throw new Error("Unauthorized")
-      }
-
-      throw new Error(
-        data?.message ||
-        `Failed to update quest (${response.status})`
-      )
-    }
-
-    return data
+    return await parseErrorResponse(response)
 
   } catch (err) {
 
@@ -204,12 +138,7 @@ export async function fetchPenaltyForQuest(token) {
       },
     )
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch penalty " + response.status)
-    }
-
-    const data = await response.json()
-    return data
+    return await parseErrorResponse(response)
   } catch (err) {
     console.error("[quests.api] Failed to fetch active penalty", err)
     throw err

@@ -1,4 +1,4 @@
-async function parseAuthResponse(response) {
+export async function parseErrorResponse(response) {
   const data = await response.json().catch(() => null)
 
   if (!response.ok) {
@@ -30,7 +30,7 @@ export async function fetchLogin(credentials) {
       }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 //Admin
@@ -52,7 +52,7 @@ export async function fetchRegister(credentials) {
       }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 export async function fetchLogout(token) {
@@ -65,7 +65,7 @@ export async function fetchLogout(token) {
       },
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 export async function fetchCheckUserExists(email) {
@@ -79,7 +79,7 @@ export async function fetchCheckUserExists(email) {
       body: JSON.stringify({ email }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 export async function fetchForgotPassword(email) {
@@ -93,7 +93,7 @@ export async function fetchForgotPassword(email) {
       body: JSON.stringify({ email }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 export async function fetchVerifyReset(email, code) {
@@ -107,7 +107,7 @@ export async function fetchVerifyReset(email, code) {
       body: JSON.stringify({ email, code }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
 
 export async function fetchResetPassword(password, userId) {
@@ -121,5 +121,5 @@ export async function fetchResetPassword(password, userId) {
       body: JSON.stringify({ password, userId }),
     },
   )
-  return parseAuthResponse(response)
+  return parseErrorResponse(response)
 }
