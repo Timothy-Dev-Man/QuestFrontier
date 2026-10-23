@@ -2,6 +2,7 @@
 import express from "express"
 import { authenticate } from "../middleware/auth.middleware.js"
 import { validate } from "../middleware/validation.middleware.js"
+import { updatePasswordValidation, emailValidation } from "../validations/authValdation.js"
 import { hunterNameValidation } from "../validations/hunterNameValidation.js"
 import {
   updateUsernameController,
@@ -40,13 +41,12 @@ router.get("/inventory/effect", authenticate, getActiveEffectsController)
 router.put("/update/name", authenticate, ...hunterNameValidation, validate, updateUsernameController)
 
 // PATCH update password
-router.put("/update/email", authenticate, updateUserEmailController)
+router.put("/update/email", authenticate, ...emailValidation, validate, updateUserEmailController)
 
 // PATCH update password
-router.put("/update/password", authenticate, updateUserPasswordController)
+router.put("/update/password", authenticate, ...updatePasswordValidation, validate, updateUserPasswordController)
 
 // PATCH update password
 router.post("/check/password", authenticate, checkCurrentPasswordController)
 
 export default router
-//IamTheMan!1
