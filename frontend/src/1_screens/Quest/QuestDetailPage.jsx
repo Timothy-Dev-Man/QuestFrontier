@@ -98,13 +98,16 @@ export default function QuestDetailPage({ route, navigation }) {
   }
 
   const startTime = quest?.start ? new Date(quest.start).getTime() : NaN;
+  const deadlineTime = quest?.deadline ? new Date(quest.deadline).getTime() : NaN;
 
   const waitingForStart = Number.isFinite(startTime) && currentTime < startTime;
+  const deadlinePassed = Number.isFinite(deadlineTime) && currentTime >= deadlineTime;
 
   const canComplete =
     quest?.status === "pending" &&
     quest?.is_completed === false &&
-    !waitingForStart;
+    !waitingForStart &&
+    !deadlinePassed;
 
   return (
 
