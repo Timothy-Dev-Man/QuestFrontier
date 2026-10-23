@@ -9,8 +9,10 @@ import {
     ActivityIndicator,
 } from "react-native"
 import { useState } from "react"
+
 import { fetchCheckUserExists, fetchForgotPassword, fetchVerifyReset, fetchResetPassword } from "../../4_api/auth.api"
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from "../../2_services/context"
 
 import AccountInput from "../../3_components/Utils/AccountInput.jsx"
 import BackArrow from "../../3_components/Utils/BackArrow.jsx"
@@ -28,7 +30,7 @@ function ForgotPassword() {
     const [newPassword, setNewPassword] = useState("")
     const [userId, setUserId] = useState(null)
     const [error, setError] = useState("")
-
+    const { user } = useAuth()
     const navigation = useNavigation();
 
     async function requestCode() {
@@ -56,6 +58,10 @@ function ForgotPassword() {
         setIsSubmitting(true)
         try {
             const results = await fetchVerifyReset(email.trim(), code.trim())
+            if (!results.valid) {
+                setError("Invalid or expired verification code");
+                return;
+            }
             setCodeResponse(results.valid)
             setCodeRequested(false)
         } catch (err) {
@@ -69,7 +75,10 @@ function ForgotPassword() {
         setIsSubmitting(true)
         try {
             await fetchResetPassword(newPassword, userId)
-            navigation.navigate("Login")
+            navigation.reset({
+                index: 0,
+                routes: [{ name: user ? "Home" : "Login" }],
+            });
         } catch (err) {
             setError(err.message || "Unable to reset password")
         } finally {

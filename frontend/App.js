@@ -76,6 +76,7 @@ function AppStack() {
       <Stack.Screen name="ChangeUsername" component={ChangeUsername} />
       <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
     </Stack.Navigator>
   )
 }
