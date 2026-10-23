@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
     xpText: {
         color: "#AAB5D6",
-        fontSize: 12,
+        fontSize: 10,
         fontWeight: "600",
     },
 
