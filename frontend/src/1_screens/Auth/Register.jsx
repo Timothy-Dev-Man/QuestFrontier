@@ -42,7 +42,6 @@ const Register = ({ navigation }) => {
         password,
       })
     } catch (err) {
-      console.error("[auth] Register failed", err)
       setError(err)
     }
   }

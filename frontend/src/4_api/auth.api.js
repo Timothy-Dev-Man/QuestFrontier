@@ -1,162 +1,125 @@
-export async function fetchLogin(credentials) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          value: credentials.value,
-          password: credentials.password,
-        }),
-      },
-    )
-    if (!response.ok) {
-      throw new Error(
-        "Network response was not ok and status: " + response.status,
-      )
-    }
+async function parseAuthResponse(response) {
+  const data = await response.json().catch(() => null)
 
-    const data = await response.json()
-    return data
-  } catch (error) {
-    throw new Error("Fetching data:" + error)
+  if (!response.ok) {
+    const message =
+      typeof data?.message === "string" && data.message.trim()
+        ? data.message
+        : typeof data?.errors?.[0]?.message === "string" && data.errors[0].message.trim()
+          ? data.errors[0].message
+          : `Request failed (${response.status})`;
+    const error = new Error(message)
+    error.response = { status: response.status, data }
+    throw error
   }
+
+  return data
 }
 
-export async function fetchRegister(credentials) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: credentials.name,
-          email: credentials.email,
-          password: credentials.password,
-        }),
+export async function fetchLogin(credentials) {
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/login`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+      body: JSON.stringify({
+        value: credentials.value,
+        password: credentials.password,
+      }),
+    },
+  )
+  return parseAuthResponse(response)
+}
+
+//Admin
+//rizz@gmail.com
+//Password1!
+
+export async function fetchRegister(credentials) {
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/register`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    },
+  )
+  return parseAuthResponse(response)
 }
 
 export async function fetchLogout(token) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/logout`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/logout`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+    },
+  )
+  return parseAuthResponse(response)
 }
 
 export async function fetchCheckUserExists(email) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/checkUser`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/checkUser`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+      body: JSON.stringify({ email }),
+    },
+  )
+  return parseAuthResponse(response)
 }
 
 export async function fetchForgotPassword(email) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/forgot-password`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+      body: JSON.stringify({ email }),
+    },
+  )
+  return parseAuthResponse(response)
 }
 
 export async function fetchVerifyReset(email, code) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/verify-reset-code`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, code }),
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/verify-reset-code`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+      body: JSON.stringify({ email, code }),
+    },
+  )
+  return parseAuthResponse(response)
 }
 
 export async function fetchResetPassword(password, userId) {
-  try {
-    const response = await fetch(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/reset-password`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password, userId }),
+  const response = await fetch(
+    `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/reset-password`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    )
-    const data = await response.json()
-    if (!response.ok) {
-      throw new Error("Network response was NOT ok. Status: " + response.status)
-    }
-    return data
-  } catch (err) {
-    throw err
-  }
+      body: JSON.stringify({ password, userId }),
+    },
+  )
+  return parseAuthResponse(response)
 }

@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
       await storeUser(data.user)
     } catch (err) {
       setError(err)
-      throw new Error(err)
+      throw err
     } finally {
       setIsLoading(false)
     }
@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
       await storeUser(registerData.user)
     } catch (err) {
       setError(err)
-      throw new Error(err)
+      throw err
     } finally {
       setIsLoading(false)
     }

@@ -14,6 +14,7 @@ export function ErrorProvider({ children }) {
     if (typeof backendMessage === "string" && backendMessage.trim()) {
       return backendMessage.trim()
     }
+    const hasServerResponse = input?.response != null
 
     const raw =
       typeof input === "string"
@@ -30,11 +31,10 @@ export function ErrorProvider({ children }) {
     }
 
     if (
-      lowered.includes("network request failed") ||
-      lowered.includes("failed to fetch") ||
-      lowered.includes("network") ||
-      lowered.includes("econn") ||
-      lowered.includes("timed out")
+      !hasServerResponse &&
+      /network request failed|failed to fetch|fetch failed|econn(?:refused|reset|aborted)|timed out|timeout/i.test(
+        withoutUrl,
+      )
     ) {
       return "Could not connect to the server. Please try again."
     }
