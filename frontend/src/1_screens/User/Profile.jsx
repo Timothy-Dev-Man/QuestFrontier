@@ -131,7 +131,7 @@ const Profile = () => {
                         />
 
                         <Text style={styles.menuText}>
-                            About QuestTracker
+                            About QuestFrontier
                         </Text>
 
                         <Ionicons

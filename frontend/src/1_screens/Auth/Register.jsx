@@ -75,7 +75,7 @@ const Register = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Text style={[authStyles.title, { fontSize: 28, marginBottom: 20 }]}>QuestTracker</Text>
+          <Text style={[authStyles.title, { fontSize: 28, marginBottom: 20 }]}>QuestFrontier</Text>
           <BlurView
             intensity={45}
             tint="dark"
